@@ -10,6 +10,7 @@ services:
     envVars:
       - key: PORT
         value: 3000
+      - fromGroup: dostai-shared
 
   # 2. OpenClaw Service (Telegram Orchestrator)
   - type: web
@@ -22,8 +23,7 @@ services:
     envVars:
       - key: PORT
         value: 3001
-      - key: MONGODB_URI
-        sync: false
+      - fromGroup: dostai-shared
       - key: TELEGRAM_BOT_TOKEN
         sync: false
       - key: SARVAM_PROXY_URL
@@ -43,8 +43,7 @@ services:
     envVars:
       - key: PORT
         value: 3006
-      - key: MONGODB_URI
-        sync: false
+      - fromGroup: dostai-shared
 
   # 4. Liam Service
   - type: web
@@ -57,8 +56,7 @@ services:
     envVars:
       - key: PORT
         value: 3007
-      - key: MONGODB_URI
-        sync: false
+      - fromGroup: dostai-shared
 
   # 5. Anime Service
   - type: web
@@ -71,8 +69,7 @@ services:
     envVars:
       - key: PORT
         value: 3008
-      - key: MONGODB_URI
-        sync: false
+      - fromGroup: dostai-shared
 
   # 6. Celeb Service
   - type: web
@@ -85,8 +82,7 @@ services:
     envVars:
       - key: PORT
         value: 3009
-      - key: MONGODB_URI
-        sync: false
+      - fromGroup: dostai-shared
 
   # 7. SafeSpace Service
   - type: web
@@ -99,8 +95,7 @@ services:
     envVars:
       - key: PORT
         value: 3010
-      - key: MONGODB_URI
-        sync: false
+      - fromGroup: dostai-shared
 
   # 8. MindReset Service
   - type: web
@@ -113,8 +108,7 @@ services:
     envVars:
       - key: PORT
         value: 3011
-      - key: MONGODB_URI
-        sync: false
+      - fromGroup: dostai-shared
 
   # 9. Web Frontend (Next.js)
   - type: web
@@ -125,8 +119,7 @@ services:
     buildCommand: npm install && npm run build
     startCommand: npm run start
     envVars:
-      - key: MONGODB_URI
-        sync: false
+      - fromGroup: dostai-shared
       - key: SARVAM_PROXY_URL
         fromService:
           name: sarvam-proxy
