@@ -6,7 +6,7 @@ services:
     plan: free
     rootDir: sarvam-proxy
     buildCommand: npm install
-    startCommand: node src/index.js
+    startCommand: node adapter.js
     envVars:
       - key: PORT
         value: 3000
@@ -115,3 +115,20 @@ services:
         value: 3011
       - key: MONGODB_URI
         sync: false
+
+  # 9. Web Frontend (Next.js)
+  - type: web
+    name: dostai-web
+    env: node
+    plan: free
+    rootDir: web
+    buildCommand: npm install && npm run build
+    startCommand: npm run start
+    envVars:
+      - key: MONGODB_URI
+        sync: false
+      - key: SARVAM_PROXY_URL
+        fromService:
+          name: sarvam-proxy
+          type: web
+          property: host
