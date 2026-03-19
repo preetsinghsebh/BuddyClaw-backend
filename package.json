@@ -5,5 +5,8 @@
   "scripts": {
     "build": "echo 'Root build not required. Use Blueprint to deploy individual services.'",
     "install-all": "npm install --prefix anime-service && npm install --prefix celeb-service && npm install --prefix liam-service && npm install --prefix mindreset-service && npm install --prefix openclaw-service && npm install --prefix safespace-service && npm install --prefix sarvam-proxy && npm install --prefix ziva-service && npm install --prefix web"
+  },
+  "dependencies": {
+    "dotenv": "^17.3.1"
   }
 }
