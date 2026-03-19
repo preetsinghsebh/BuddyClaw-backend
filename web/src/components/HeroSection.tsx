@@ -42,7 +42,7 @@ export default function HeroSection() {
     const heroRef = useRef<HTMLElement>(null)
     const statRef = useRef<HTMLDivElement>(null)
 
-    const friendCount = useCountUp(50000, 2200, countStarted)
+    const friendCount = useCountUp(5000, 2200, countStarted)
 
     useEffect(() => {
         setMounted(true)
@@ -207,9 +207,7 @@ export default function HeroSection() {
 
                     {/* Primary CTA */}
                     <a
-                        href="https://t.me/Real_Companion_Bot"
-                        target="_blank"
-                        rel="noopener noreferrer"
+                        href="#experiences"
                         className="btn-white-pill"
                         style={{
                             width: 'auto',
@@ -326,13 +324,31 @@ export default function HeroSection() {
                         animation: 'fadeUp 0.7s 0.5s ease both',
                     }}>
                         <a
-                            href="https://t.me/Real_Companion_Bot"
-                            target="_blank"
-                            rel="noopener noreferrer"
+                            href="#experiences"
                             className="btn-white-pill"
                             style={{ padding: '1rem 3.5rem' }}
                         >
                             Start chatting
+                        </a>
+                        <a
+                            href="/auth"
+                            className="btn-glass"
+                            style={{ 
+                                padding: '1rem 3.5rem',
+                                borderRadius: 9999,
+                                border: '1px solid rgba(255,255,255,0.2)',
+                                background: 'rgba(255,255,255,0.05)',
+                                color: '#fff',
+                                textDecoration: 'none',
+                                fontWeight: 500,
+                                fontSize: '1rem',
+                                backdropFilter: 'blur(10px)',
+                                transition: 'all 0.3s ease',
+                            }}
+                            onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.12)')}
+                            onMouseLeave={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.05)')}
+                        >
+                            Sign In
                         </a>
                     </div>
 

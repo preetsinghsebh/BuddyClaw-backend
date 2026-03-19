@@ -358,12 +358,9 @@ const activeP = localizedPersonas.find(p => p.id === activeId) || localizedPerso
                         `}} />
 
                         {/* Chat Footer CTA */}
-                        <div style={{ padding: '1.25rem', background: 'rgba(0,0,0,0.3)', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
-                            <a
-                                href={getTelegramLink(activeP.id)}
+                             <a
+                                href={`/auth?personaId=${activeP.id}`}
                                 onClick={() => trackEvent('telegram_chat_start', { personaId: activeP.id, category: activeP.category })}
-                                target="_blank"
-                                rel="noopener noreferrer"
                                 style={{
                                     display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem',
                                     background: activeP.accent,
@@ -381,7 +378,6 @@ const activeP = localizedPersonas.find(p => p.id === activeId) || localizedPerso
                             >
                                 <SendIcon /> Talk to {activeP.name} on Telegram
                             </a>
-                        </div>
                     </div>
 
                 </div>

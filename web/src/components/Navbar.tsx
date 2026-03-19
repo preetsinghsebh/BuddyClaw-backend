@@ -98,11 +98,26 @@ export default function Navbar() {
 
           {/* Right side */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexShrink: 0 }}>
+            {/* Sign In */}
+            <a
+              href="/auth"
+              style={{
+                fontFamily: 'var(--font-ui)',
+                fontSize: '0.85rem',
+                color: 'rgba(255,255,255,0.7)',
+                fontWeight: 600,
+                transition: 'color 0.2s',
+                marginRight: '0.5rem',
+              }}
+              onMouseEnter={e => (e.currentTarget.style.color = '#fff')}
+              onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.7)')}
+            >
+              Sign In
+            </a>
+
             {/* CTA */}
             <a
-              href="https://t.me/Real_Companion_Bot"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="#experiences"
               className="rc-nav-links btn-gold"
               style={{
                 padding: '0.6rem 1.4rem',
@@ -164,10 +179,9 @@ export default function Navbar() {
               </a>
             ))}
             <a
-              href="https://t.me/Real_Companion_Bot"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="#experiences"
               className="btn-gold"
+              onClick={() => setMenuOpen(false)}
               style={{
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 gap: '0.5rem', marginTop: '1.25rem', width: '100%',

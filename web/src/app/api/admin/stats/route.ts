@@ -1,11 +1,20 @@
 import { NextResponse } from 'next/server';
-import { connectDB } from '../../../../../shared/database';
-import User from '../../../../../shared/models/User';
-import Chat from '../../../../../shared/models/Chat';
+import { connectDB } from '@/shared/database';
+import User from '@/shared/models/User';
+import Chat from '@/shared/models/Chat';
+
+import mongoose from 'mongoose';
 
 export async function GET() {
     try {
+        console.log('[AdminAPI] Connecting to DB...');
         await connectDB();
+        console.log('[AdminAPI] Connection state:', mongoose.connection.readyState);
+        console.log('[AdminAPI] User model connection state:', User.db.readyState);
+        
+        if (User.db.readyState !== 1) {
+            throw new Error(`User model database connection not ready (state: ${User.db.readyState})`);
+        }
 
         // 1. Unique Users (Pilots)
         const uniqueUsers = await User.countDocuments();
@@ -47,8 +56,13 @@ export async function GET() {
             recentEvents
         });
 
-    } catch (error) {
+    } catch (error: any) {
         console.error('[AdminAPI] Stats Error:', error);
-        return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+        const maskedUri = (process.env.MONGODB_URI || 'UNDEFINED').replace(/:([^@]+)@/, ':****@');
+        return NextResponse.json({ 
+            error: 'Internal Server Error', 
+            message: error.message,
+            uri: maskedUri 
+        }, { status: 500 });
     }
 }

@@ -3,9 +3,7 @@
 export default function FloatingChatButton() {
     return (
         <a
-            href="https://t.me/Real_Companion_Bot"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="#experiences"
             aria-label="Chat Now"
             style={{
                 position: 'fixed',

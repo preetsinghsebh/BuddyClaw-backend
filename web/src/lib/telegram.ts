@@ -1,4 +1,5 @@
-export const getTelegramLink = (personaId: string, action: 'persona' | 'interpret' | 'default' = 'persona') => {
+export const getTelegramLink = (pId: string, action: 'persona' | 'interpret' | 'default' = 'persona') => {
+    const personaId = pId.toLowerCase();
     // 1. DEDICATED INDIVIDUAL BOTS
     if (personaId === 'sweetie' || personaId === 'sweet_gf') {
         return "https://t.me/Ziva_Companion_bot";

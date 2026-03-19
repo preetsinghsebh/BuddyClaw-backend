@@ -2,7 +2,7 @@ module.exports = {
   apps: [
     {
       name: 'ziva-service',
-      cwd: '/Users/preet/Documents/Friend Claw/dostai/ziva-service',
+      cwd: './ziva-service',
       script: 'src/index.js',
       env: {
         PORT: 3006,
@@ -13,7 +13,7 @@ module.exports = {
     },
     {
       name: 'liam-service',
-      cwd: '/Users/preet/Documents/Friend Claw/dostai/liam-service',
+      cwd: './liam-service',
       script: 'src/index.js',
       env: {
         PORT: 3007,
@@ -24,7 +24,7 @@ module.exports = {
     },
     {
       name: 'anime-service',
-      cwd: '/Users/preet/Documents/Friend Claw/dostai/anime-service',
+      cwd: './anime-service',
       script: 'src/index.js',
       env: {
         PORT: 3008,
@@ -35,7 +35,7 @@ module.exports = {
     },
     {
       name: 'celeb-service',
-      cwd: '/Users/preet/Documents/Friend Claw/dostai/celeb-service',
+      cwd: './celeb-service',
       script: 'src/index.js',
       env: {
         PORT: 3009,
@@ -46,7 +46,7 @@ module.exports = {
     },
     {
       name: 'safespace-service',
-      cwd: '/Users/preet/Documents/Friend Claw/dostai/safespace-service',
+      cwd: './safespace-service',
       script: 'src/index.js',
       env: {
         PORT: 3010,
@@ -57,7 +57,7 @@ module.exports = {
     },
     {
       name: 'mindreset-service',
-      cwd: '/Users/preet/Documents/Friend Claw/dostai/mindreset-service',
+      cwd: './mindreset-service',
       script: 'src/index.js',
       env: {
         PORT: 3011,
@@ -68,7 +68,7 @@ module.exports = {
     },
     {
       name: 'openclaw-service',
-      cwd: '/Users/preet/Documents/Friend Claw/dostai/openclaw-service',
+      cwd: './openclaw-service',
       script: 'src/index.js',
       env: {
         PORT: 3001,
@@ -79,7 +79,7 @@ module.exports = {
     },
     {
       name: 'sarvam-proxy',
-      cwd: '/Users/preet/Documents/Friend Claw/dostai/sarvam-proxy',
+      cwd: './sarvam-proxy',
       script: 'adapter.js',
       env: {
         PORT: 3005,

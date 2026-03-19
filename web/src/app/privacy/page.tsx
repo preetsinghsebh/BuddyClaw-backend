@@ -5,7 +5,7 @@ export default function PrivacyPolicy() {
     <LegalLayout title="Privacy Policy" lastUpdated="March 18, 2026">
       <section className="space-y-6">
         <h2 className="text-2xl font-medium text-[#FFB300]">1. Data Collection</h2>
-        <p>RealCompanion collects minimal data required to provide our AI companion services. This includes your Telegram Chat ID, nicknames you provide, and interaction history with our bots.</p>
+        <p>DostAI collects minimal data required to provide our AI companion services. This includes your Telegram Chat ID, nicknames you provide, and interaction history with our bots.</p>
         
         <h2 className="text-2xl font-medium text-[#FFB300]">2. Chat History</h2>
         <p>Interaction data is stored securely in our localized persistence layer to provide context and "memory" for your AI companions. We do not sell this data to third parties.</p>

@@ -25,7 +25,7 @@ export default function SubscriptionPage() {
 
             <div className="w-full max-w-5xl flex justify-between items-center mb-12">
                 <Link href="/" className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white flex items-center gap-2">
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-lavender-500 to-rose-400">RealCompanion</span>
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-lavender-500 to-rose-400">DostAI</span>
                     <span>❤️</span>
                 </Link>
                 <div className="text-sm font-medium text-gray-500 bg-white/50 dark:bg-black/50 px-4 py-2 rounded-full border border-gray-200 dark:border-gray-800 backdrop-blur-sm">

@@ -130,106 +130,118 @@ export default function ChatCardsSection() {
                     gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
                     gap: '1.5rem',
                 }}>
-                    {CHAT_PREVIEWS.map(chat => (
-                        <a
-                            key={chat.name}
-                            href="https://t.me/Real_Companion_Bot"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            style={{
-                                textDecoration: 'none',
-                                background: 'var(--surface)',
-                                border: '1px solid rgba(255,255,255,0.06)',
-                                borderRadius: 24,
-                                padding: '1.5rem',
-                                display: 'flex', flexDirection: 'column', gap: '1rem',
-                                transition: 'all 0.3s ease',
-                                cursor: 'pointer',
-                                position: 'relative',
-                                overflow: 'hidden',
-                            }}
-                            onMouseEnter={e => {
-                                const el = e.currentTarget as HTMLAnchorElement
-                                el.style.transform = 'translateY(-6px)'
-                                el.style.boxShadow = `0 20px 50px rgba(0,0,0,0.4), 0 0 25px ${chat.color}20`
-                                el.style.borderColor = `${chat.color}30`
-                            }}
-                            onMouseLeave={e => {
-                                const el = e.currentTarget as HTMLAnchorElement
-                                el.style.transform = 'translateY(0)'
-                                el.style.boxShadow = 'none'
-                                el.style.borderColor = 'rgba(255,255,255,0.06)'
-                            }}
-                        >
-                            {/* Top accent bar */}
-                            <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2.5, background: `linear-gradient(90deg, ${chat.color}, transparent)` }} />
-
-                            {/* Chat header */}
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                                <div style={{
-                                    width: 44, height: 44, borderRadius: '50%',
-                                    background: `${chat.color}20`,
-                                    border: `1.5px solid ${chat.color}40`,
-                                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                    fontSize: '1.3rem',
+                    {CHAT_PREVIEWS.map(chat => {
+                        const idMap: Record<string, string> = {
+                            'Ziva': 'ziva',
+                            'Listener': 'caring-listener',
+                            'Bestie': 'roaster',
+                            'Luffy': 'gojo',
+                            'Kain West': 'roaster',
+                            'Emma': 'emma',
+                            'Liam': 'liam',
+                            'Zane': 'confident-zane'
+                        };
+                        const personaId = idMap[chat.name] || 'ziva';
+                        
+                        return (
+                            <a
+                                key={chat.name}
+                                href={`/auth?personaId=${personaId}`}
+                                style={{
+                                    textDecoration: 'none',
+                                    background: 'var(--surface)',
+                                    border: '1px solid rgba(255,255,255,0.06)',
+                                    borderRadius: 24,
+                                    padding: '1.5rem',
+                                    display: 'flex', flexDirection: 'column', gap: '1rem',
+                                    transition: 'all 0.3s ease',
+                                    cursor: 'pointer',
+                                    position: 'relative',
                                     overflow: 'hidden',
-                                    position: 'relative'
-                                }}>
-                                    {chat.imageUrl ? (
-                                        <img 
-                                            src={chat.imageUrl} 
-                                            alt={chat.name} 
-                                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                                        />
-                                    ) : (
-                                        chat.icon
-                                    )}
-                                </div>
-                                <div>
-                                    <div style={{ fontFamily: 'var(--font-ui)', fontWeight: 700, color: '#fff', fontSize: '0.925rem' }}>{chat.name}</div>
-                                    <div style={{ display: 'flex', alignItems: 'center', gap: '4px', marginTop: 2 }}>
-                                        <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#22c55e', display: 'inline-block' }} />
-                                        <span style={{ fontSize: '0.7rem', color: '#22c55e', fontFamily: 'var(--font-ui)', fontWeight: 600 }}>Online now</span>
-                                    </div>
-                                </div>
-                            </div>
+                                }}
+                                onMouseEnter={e => {
+                                    const el = e.currentTarget as HTMLAnchorElement
+                                    el.style.transform = 'translateY(-6px)'
+                                    el.style.boxShadow = `0 20px 50px rgba(0,0,0,0.4), 0 0 25px ${chat.color}20`
+                                    el.style.borderColor = `${chat.color}30`
+                                }}
+                                onMouseLeave={e => {
+                                    const el = e.currentTarget as HTMLAnchorElement
+                                    el.style.transform = 'translateY(0)'
+                                    el.style.boxShadow = 'none'
+                                    el.style.borderColor = 'rgba(255,255,255,0.06)'
+                                }}
+                            >
+                                {/* Top accent bar */}
+                                <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2.5, background: `linear-gradient(90deg, ${chat.color}, transparent)` }} />
 
-                            {/* Messages */}
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
-                                {chat.messages.map((msg, i) => (
-                                    <div key={i} style={{
-                                        display: 'flex', justifyContent: msg.from === 'me' ? 'flex-end' : 'flex-start',
+                                {/* Chat header */}
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                                    <div style={{
+                                        width: 44, height: 44, borderRadius: '50%',
+                                        background: `${chat.color}20`,
+                                        border: `1.5px solid ${chat.color}40`,
+                                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                        fontSize: '1.3rem',
+                                        overflow: 'hidden',
+                                        position: 'relative'
                                     }}>
-                                        <div style={{
-                                            maxWidth: '80%',
-                                            background: msg.from === 'me'
-                                                ? `linear-gradient(135deg, var(--gold), var(--orange))`
-                                                : 'rgba(255,255,255,0.07)',
-                                            color: msg.from === 'me' ? '#000' : 'rgba(255,255,255,0.8)',
-                                            borderRadius: msg.from === 'me' ? '16px 16px 4px 16px' : '16px 16px 16px 4px',
-                                            padding: '0.6rem 0.9rem',
-                                            fontSize: '0.82rem',
-                                            fontFamily: 'var(--font-body)',
-                                            fontWeight: msg.from === 'me' ? 600 : 400,
-                                            lineHeight: 1.45,
-                                        }}>
-                                            {msg.text}
+                                        {chat.imageUrl ? (
+                                            <img
+                                                src={chat.imageUrl}
+                                                alt={chat.name}
+                                                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                            />
+                                        ) : (
+                                            chat.icon
+                                        )}
+                                    </div>
+                                    <div>
+                                        <div style={{ fontFamily: 'var(--font-ui)', fontWeight: 700, color: '#fff', fontSize: '0.925rem' }}>{chat.name}</div>
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: '4px', marginTop: 2 }}>
+                                            <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#22c55e', display: 'inline-block' }} />
+                                            <span style={{ fontSize: '0.7rem', color: '#22c55e', fontFamily: 'var(--font-ui)', fontWeight: 600 }}>Online now</span>
                                         </div>
                                     </div>
-                                ))}
-                                {/* Typing dots */}
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '4px', paddingLeft: '2px' }}>
-                                    {[0, 1, 2].map(dot => (
-                                        <div key={dot} style={{
-                                            width: 6, height: 6, borderRadius: '50%',
-                                            background: `${chat.color}80`,
-                                            animation: `pulseDot 1.2s ease-in-out ${dot * 0.2}s infinite`,
-                                        }} />
-                                    ))}
                                 </div>
-                            </div>
-                        </a>
-                    ))}
+
+                                {/* Messages */}
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
+                                    {chat.messages.map((msg, i) => (
+                                        <div key={i} style={{
+                                            display: 'flex', justifyContent: msg.from === 'me' ? 'flex-end' : 'flex-start',
+                                        }}>
+                                            <div style={{
+                                                maxWidth: '80%',
+                                                background: msg.from === 'me'
+                                                    ? `linear-gradient(135deg, var(--gold), var(--orange))`
+                                                    : 'rgba(255,255,255,0.07)',
+                                                color: msg.from === 'me' ? '#000' : 'rgba(255,255,255,0.8)',
+                                                borderRadius: msg.from === 'me' ? '16px 16px 4px 16px' : '16px 16px 16px 4px',
+                                                padding: '0.6rem 0.9rem',
+                                                fontSize: '0.82rem',
+                                                fontFamily: 'var(--font-body)',
+                                                fontWeight: msg.from === 'me' ? 600 : 400,
+                                                lineHeight: 1.45,
+                                            }}>
+                                                {msg.text}
+                                            </div>
+                                        </div>
+                                    ))}
+                                    {/* Typing dots */}
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '4px', paddingLeft: '2px' }}>
+                                        {[0, 1, 2].map(dot => (
+                                            <div key={dot} style={{
+                                                width: 6, height: 6, borderRadius: '50%',
+                                                background: `${chat.color}80`,
+                                                animation: `pulseDot 1.2s ease-in-out ${dot * 0.2}s infinite`,
+                                            }} />
+                                        ))}
+                                    </div>
+                                </div>
+                            </a>
+                        )
+                    })}
                 </div>
             </div>
         </section>

@@ -22,7 +22,7 @@ const FEATURES = [
     },
     {
         icon: '🎭',
-        title: '50+ Unique Characters',
+        title: '25+ Unique Characters',
         desc: 'From Bestie to a cozy grandma — the widest roster of AI friends ever assembled.',
         color: '#E8197D',
     },

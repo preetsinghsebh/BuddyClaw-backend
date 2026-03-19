@@ -3,17 +3,17 @@ import './globals.css'
 import DisclaimerModal from '@/components/DisclaimerModal'
 
 export const metadata: Metadata = {
-  title: 'RealCompanion — Your People Found You',
+  title: 'DostAI — Your People Found You',
   description: 'Anime legends. Real-life icons. Healing guides. Hype squads. Every friend you\'ve ever needed — all in one place on Telegram.',
   openGraph: {
-    title: 'RealCompanion — Your People Found You',
+    title: 'DostAI — Your People Found You',
     description: 'Anime legends. Real-life icons. Healing guides. Hype squads. Find your circle.',
     type: 'website',
-    images: [{ url: '/hero-exact.png', width: 1200, height: 630, alt: 'RealCompanion' }],
+    images: [{ url: '/hero-exact.png', width: 1200, height: 630, alt: 'DostAI' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'RealCompanion — Your People Found You',
+    title: 'DostAI — Your People Found You',
     description: 'Find your circle. Anime legends, real-life icons, healing guides & hype squads — on Telegram.',
     images: ['/hero-exact.png'],
   },

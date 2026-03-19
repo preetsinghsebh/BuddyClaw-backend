@@ -11,9 +11,8 @@ const FOOTER_COLS = [
     {
         title: 'CONNECT',
         links: [
-            { label: 'Start on Telegram', href: 'https://t.me/Real_Companion_Bot' },
+            { label: 'Start on Telegram', href: '/auth' },
             { label: 'FAQ', href: '#faq' },
-            { label: 'System Status', href: '/admin/stats' },
         ],
     },
     {
@@ -21,14 +20,10 @@ const FOOTER_COLS = [
         links: [
             { label: 'Privacy Policy', href: '/privacy' },
             { label: 'Terms of Service', href: '/terms' },
-            { label: 'AI Disclaimer', href: '/disclaimer' },
         ],
     },
 ]
 
-const SOCIALS = [
-    { icon: '✈️', href: 'https://t.me/Real_Companion_Bot', label: 'Telegram' },
-]
 
 export default function Footer() {
     return (
@@ -58,21 +53,17 @@ export default function Footer() {
                             marginBottom: '0.75rem',
                             fontWeight: 300,
                         }}>
-                            Real<span style={{ color: 'var(--gold)', opacity: 0.9 }}>companion</span>
+                            Dost<span style={{ color: 'var(--gold)', opacity: 0.9 }}>AI</span>
                         </div>
                         <p style={{
                             fontFamily: 'var(--font-body)',
                             fontSize: '0.875rem',
                             color: 'rgba(255,255,255,0.35)',
                             lineHeight: 1.7,
-                            maxWidth: 260,
+                            maxWidth: 280,
                         }}>
-                            Your circle, always online. Anime legends, real vibes. Find your people — stay hungry, stay strong.
+                            Your circle, always online. From anime legends to life guides, find the friend you need — stay authentic, stay connected.
                         </p>
-                        <div style={{ marginTop: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                            <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#22c55e', display: 'inline-block', animation: 'pulseDot 2s ease-in-out infinite' }} />
-                            <span style={{ fontSize: '0.7rem', color: 'rgba(255,255,255,0.3)', fontFamily: 'var(--font-ui)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>All systems online</span>
-                        </div>
                     </div>
 
                     {/* Nav columns */}
@@ -107,49 +98,6 @@ export default function Footer() {
                         </div>
                     ))}
 
-                    {/* Socials */}
-                    <div>
-                        <div style={{
-                            fontSize: '0.68rem', fontWeight: 700, letterSpacing: '0.12em',
-                            color: 'rgba(255,255,255,0.25)', textTransform: 'uppercase',
-                            marginBottom: '1.25rem', fontFamily: 'var(--font-ui)',
-                        }}>FOLLOW</div>
-                        <div style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap' }}>
-                            {SOCIALS.map(s => (
-                                <a
-                                    key={s.label}
-                                    href={s.href}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    aria-label={s.label}
-                                    style={{
-                                        width: 38, height: 38, borderRadius: '50%',
-                                        border: '1px solid rgba(255,255,255,0.08)',
-                                        background: 'var(--surface)',
-                                        display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                        fontSize: '0.9rem', color: 'rgba(255,255,255,0.45)',
-                                        transition: 'all 0.25s ease',
-                                    }}
-                                    onMouseEnter={e => {
-                                        const el = e.currentTarget as HTMLAnchorElement
-                                        el.style.background = 'var(--gold)'
-                                        el.style.borderColor = 'var(--gold)'
-                                        el.style.color = '#000'
-                                        el.style.transform = 'translateY(-3px)'
-                                    }}
-                                    onMouseLeave={e => {
-                                        const el = e.currentTarget as HTMLAnchorElement
-                                        el.style.background = 'var(--surface)'
-                                        el.style.borderColor = 'rgba(255,255,255,0.08)'
-                                        el.style.color = 'rgba(255,255,255,0.45)'
-                                        el.style.transform = 'translateY(0)'
-                                    }}
-                                >
-                                    {s.icon}
-                                </a>
-                            ))}
-                        </div>
-                    </div>
                 </div>
 
                 {/* Bottom bar */}
@@ -163,7 +111,7 @@ export default function Footer() {
                     gap: '0.5rem',
                 }}>
                     <span style={{ fontFamily: 'var(--font-ui)', fontSize: '0.78rem', color: 'rgba(255,255,255,0.2)' }}>
-                        © 2026 RealCompanion. All rights reserved.
+                        © 2026 DostAI. All rights reserved.
                     </span>
                     <span style={{ fontFamily: 'var(--font-display)', fontSize: '0.9rem', color: 'rgba(255,179,0,0.35)', letterSpacing: '0.15em', fontWeight: 300 }}>
                         Stay hungry. Stay strong. ✦

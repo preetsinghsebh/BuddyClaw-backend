@@ -144,13 +144,11 @@ export default function HowItWorks() {
                 {/* Bottom CTA */}
                 <div style={{ textAlign: 'center', marginTop: '3.5rem' }}>
                     <a
-                        href="https://t.me/Real_Companion_Bot"
-                        target="_blank"
-                        rel="noopener noreferrer"
+                        href="#experiences"
                         className="btn-gold"
                         style={{ fontSize: '1.05rem', padding: '1rem 2.5rem' }}
                     >
-                        Start for Free — No Signup ✦
+                        Start for Free ✦
                     </a>
                 </div>
             </div>

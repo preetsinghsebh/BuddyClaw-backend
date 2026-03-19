@@ -50,7 +50,7 @@ export default function CustomizePage() {
 
             <div className="absolute top-6 left-6">
                 <Link href="/" className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white flex items-center gap-2">
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-lavender-500 to-rose-400">RealCompanion</span>
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-lavender-500 to-rose-400">DostAI</span>
                     <span>❤️</span>
                 </Link>
             </div>

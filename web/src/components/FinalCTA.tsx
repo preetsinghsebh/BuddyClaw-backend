@@ -1,13 +1,13 @@
 'use client'
-
-const STATS = [
-    { value: '50,432', label: 'ACTIVE FRIENDS' },
-    { value: '2,842,910', label: 'CHATS SYNCED' },
-    { value: '54', label: 'UNIQUE ICONS' },
-    { value: '4.8★', label: 'USER RATING' },
-]
+import { PERSONAS } from "@/lib/personas";
 
 export default function FinalCTA() {
+    const STATS = [
+        { value: '5,432', label: 'ACTIVE FRIENDS' },
+        { value: '142,910', label: 'CHATS SYNCED' },
+        { value: PERSONAS.length.toString(), label: 'UNIQUE ICONS' },
+        { value: '4.8★', label: 'USER RATING' },
+    ]
     return (
         <section style={{
             backgroundColor: 'var(--bg)',
@@ -91,20 +91,18 @@ export default function FinalCTA() {
                 {/* CTAs */}
                 <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
                     <a
-                        href="https://t.me/Real_Companion_Bot"
-                        target="_blank"
-                        rel="noopener noreferrer"
+                        href="#experiences"
                         className="btn-gold pulse-glow"
                         style={{ fontSize: '1.1rem', padding: '1.1rem 3rem' }}
                     >
                         Start Chatting Free ✦
                     </a>
                     <a
-                        href="#experiences"
+                        href="/auth"
                         className="btn-ghost"
                         style={{ fontSize: '1.1rem', padding: '1.1rem 2.5rem' }}
                     >
-                        Browse the Circle →
+                        Sign Up on Web →
                     </a>
                 </div>
 
@@ -116,7 +114,7 @@ export default function FinalCTA() {
                     marginTop: '2rem',
                     letterSpacing: '0.04em',
                 }}>
-                    No credit card. No signup. Just open Telegram. ✦
+                    Start on Telegram or join our web community. ✦
                 </p>
             </div>
         </section>

@@ -127,9 +127,7 @@ export default function ExitIntentPopup() {
                 </p>
 
                 <a
-                    href="https://t.me/Real_Companion_Bot"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    href="/auth"
                     className="btn-gold pulse-glow"
                     style={{ fontSize: '1rem', padding: '1rem 2.5rem', display: 'inline-flex' }}
                     onClick={() => setVisible(false)}
@@ -143,7 +141,7 @@ export default function ExitIntentPopup() {
                     color: 'rgba(255,255,255,0.2)',
                     fontFamily: 'var(--font-ui)',
                 }}>
-                    Free. No signup. Just Telegram.
+                    Free unlimited chats. Just one click away.
                 </p>
             </div>
         </div>

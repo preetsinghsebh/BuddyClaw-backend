@@ -8,7 +8,7 @@ const FAQS = [
     },
     {
         q: 'Do I need to download an app?',
-        a: 'Nope! RealCompanion runs entirely on Telegram, which you probably already have. Just tap the link, and you\'re in.'
+        a: 'Nope! DostAI runs entirely on Telegram, which you probably already have. Just tap the link, and you\'re in.'
     },
     {
         q: 'Are my conversations private?',
@@ -24,7 +24,7 @@ const FAQS = [
     },
     {
         q: 'Is this suitable for all ages?',
-        a: 'RealCompanion is designed for users 16 and older. Some companion categories may have age-appropriate content restrictions.'
+        a: 'DostAI is designed for users 16 and older. Some companion categories may have age-appropriate content restrictions.'
     },
 ]
 

@@ -34,9 +34,7 @@ export default function MobileCtaBar() {
             className="mobile-cta-bar"
         >
             <a
-                href="https://t.me/Real_Companion_Bot"
-                target="_blank"
-                rel="noopener noreferrer"
+                href="#experiences"
                 style={{
                     display: 'flex',
                     alignItems: 'center',

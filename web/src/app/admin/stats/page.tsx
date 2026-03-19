@@ -69,14 +69,14 @@ export default function AdminStats() {
                 }}>
                     <MetricCard 
                         title="Total Interactions" 
-                        value={stats.totalEvents.toLocaleString()} 
+                        value={stats.totalEvents?.toLocaleString() || '0'} 
                         icon={<Activity size={24} />} 
                         trend="+100% (Real)"
                         accent="#FFB300"
                     />
                     <MetricCard 
                         title="Unique Pilots" 
-                        value={stats.uniqueUsers.toLocaleString()} 
+                        value={stats.uniqueUsers?.toLocaleString() || '0'} 
                         icon={<Users size={24} />} 
                         trend="Active DB"
                         accent="#00C896"

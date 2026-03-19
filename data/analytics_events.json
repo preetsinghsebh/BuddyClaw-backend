@@ -1,0 +1,298 @@
+[
+  {
+    "eventName": "category_switch",
+    "properties": {
+      "category": "Love & Drama 💔"
+    },
+    "timestamp": "2026-03-19T09:54:55.151Z"
+  },
+  {
+    "eventName": "category_switch",
+    "properties": {
+      "category": "Safe Space 🫂"
+    },
+    "timestamp": "2026-03-19T09:54:56.767Z"
+  },
+  {
+    "eventName": "category_switch",
+    "properties": {
+      "category": "Anime Mode 🌸"
+    },
+    "timestamp": "2026-03-19T09:54:58.101Z"
+  },
+  {
+    "eventName": "category_switch",
+    "properties": {
+      "category": "Chaos Mode 🔥"
+    },
+    "timestamp": "2026-03-19T09:55:02.118Z"
+  },
+  {
+    "eventName": "category_switch",
+    "properties": {
+      "category": "Anime Mode 🌸"
+    },
+    "timestamp": "2026-03-19T09:55:03.650Z"
+  },
+  {
+    "eventName": "category_switch",
+    "properties": {
+      "category": "Love & Drama 💔"
+    },
+    "timestamp": "2026-03-19T09:55:54.667Z"
+  },
+  {
+    "eventName": "category_switch",
+    "properties": {
+      "category": "Safe Space 🫂"
+    },
+    "timestamp": "2026-03-19T09:55:55.752Z"
+  },
+  {
+    "eventName": "category_switch",
+    "properties": {
+      "category": "Chaos Mode 🔥"
+    },
+    "timestamp": "2026-03-19T09:55:59.336Z"
+  },
+  {
+    "eventName": "category_switch",
+    "properties": {
+      "category": "Anime Mode 🌸"
+    },
+    "timestamp": "2026-03-19T09:56:00.767Z"
+  },
+  {
+    "eventName": "category_switch",
+    "properties": {
+      "category": "Mind Reset 🌿"
+    },
+    "timestamp": "2026-03-19T09:56:01.483Z"
+  },
+  {
+    "eventName": "category_switch",
+    "properties": {
+      "category": "Celeb Energy"
+    },
+    "timestamp": "2026-03-19T09:56:02.037Z"
+  },
+  {
+    "eventName": "category_switch",
+    "properties": {
+      "category": "Celeb Energy"
+    },
+    "timestamp": "2026-03-19T10:05:02.160Z"
+  },
+  {
+    "eventName": "category_switch",
+    "properties": {
+      "category": "Mind Reset 🌿"
+    },
+    "timestamp": "2026-03-19T10:08:32.400Z"
+  },
+  {
+    "eventName": "category_switch",
+    "properties": {
+      "category": "Mind Reset 🌿"
+    },
+    "timestamp": "2026-03-19T10:09:52.215Z"
+  },
+  {
+    "eventName": "category_switch",
+    "properties": {
+      "category": "Anime Mode 🌸"
+    },
+    "timestamp": "2026-03-19T10:11:54.597Z"
+  },
+  {
+    "eventName": "category_switch",
+    "properties": {
+      "category": "Anime Mode 🌸"
+    },
+    "timestamp": "2026-03-19T10:13:04.708Z"
+  },
+  {
+    "eventName": "category_switch",
+    "properties": {
+      "category": "Chaos Mode 🔥"
+    },
+    "timestamp": "2026-03-19T10:13:33.949Z"
+  },
+  {
+    "eventName": "category_switch",
+    "properties": {
+      "category": "Safe Space 🫂"
+    },
+    "timestamp": "2026-03-19T10:13:34.783Z"
+  },
+  {
+    "eventName": "category_switch",
+    "properties": {
+      "category": "Love & Drama 💔"
+    },
+    "timestamp": "2026-03-19T10:13:36.264Z"
+  },
+  {
+    "eventName": "category_switch",
+    "properties": {
+      "category": "Chaos Mode 🔥"
+    },
+    "timestamp": "2026-03-19T10:13:37.765Z"
+  },
+  {
+    "eventName": "category_switch",
+    "properties": {
+      "category": "Safe Space 🫂"
+    },
+    "timestamp": "2026-03-19T10:13:57.681Z"
+  },
+  {
+    "eventName": "category_switch",
+    "properties": {
+      "category": "Love & Drama 💔"
+    },
+    "timestamp": "2026-03-19T10:14:17.547Z"
+  },
+  {
+    "eventName": "category_switch",
+    "properties": {
+      "category": "Chaos Mode 🔥"
+    },
+    "timestamp": "2026-03-19T10:14:55.547Z"
+  },
+  {
+    "eventName": "category_switch",
+    "properties": {
+      "category": "Safe Space 🫂"
+    },
+    "timestamp": "2026-03-19T10:15:43.029Z"
+  },
+  {
+    "eventName": "category_switch",
+    "properties": {
+      "category": "Chaos Mode 🔥"
+    },
+    "timestamp": "2026-03-19T10:15:44.412Z"
+  },
+  {
+    "eventName": "category_switch",
+    "properties": {
+      "category": "Love & Drama 💔"
+    },
+    "timestamp": "2026-03-19T10:16:44.673Z"
+  },
+  {
+    "eventName": "category_switch",
+    "properties": {
+      "category": "Safe Space 🫂"
+    },
+    "timestamp": "2026-03-19T10:17:08.766Z"
+  },
+  {
+    "eventName": "category_switch",
+    "properties": {
+      "category": "Chaos Mode 🔥"
+    },
+    "timestamp": "2026-03-19T10:17:16.052Z"
+  },
+  {
+    "eventName": "category_switch",
+    "properties": {
+      "category": "Celeb Energy"
+    },
+    "timestamp": "2026-03-19T10:17:31.181Z"
+  },
+  {
+    "eventName": "category_switch",
+    "properties": {
+      "category": "Anime Mode 🌸"
+    },
+    "timestamp": "2026-03-19T10:17:50.618Z"
+  },
+  {
+    "eventName": "category_switch",
+    "properties": {
+      "category": "Mind Reset 🌿"
+    },
+    "timestamp": "2026-03-19T10:17:57.270Z"
+  },
+  {
+    "eventName": "category_switch",
+    "properties": {
+      "category": "Safe Space 🫂"
+    },
+    "timestamp": "2026-03-19T10:18:11.102Z"
+  },
+  {
+    "eventName": "category_switch",
+    "properties": {
+      "category": "Love & Drama 💔"
+    },
+    "timestamp": "2026-03-19T10:18:58.146Z"
+  },
+  {
+    "eventName": "category_switch",
+    "properties": {
+      "category": "Safe Space 🫂"
+    },
+    "timestamp": "2026-03-19T10:18:59.195Z"
+  },
+  {
+    "eventName": "category_switch",
+    "properties": {
+      "category": "For You ✨"
+    },
+    "timestamp": "2026-03-19T10:19:00.711Z"
+  },
+  {
+    "eventName": "category_switch",
+    "properties": {
+      "category": "For You ✨"
+    },
+    "timestamp": "2026-03-19T10:19:01.145Z"
+  },
+  {
+    "eventName": "category_switch",
+    "properties": {
+      "category": "Anime Mode 🌸"
+    },
+    "timestamp": "2026-03-19T10:19:03.247Z"
+  },
+  {
+    "eventName": "category_switch",
+    "properties": {
+      "category": "Celeb Energy"
+    },
+    "timestamp": "2026-03-19T10:19:04.061Z"
+  },
+  {
+    "eventName": "category_switch",
+    "properties": {
+      "category": "Mind Reset 🌿"
+    },
+    "timestamp": "2026-03-19T10:19:04.696Z"
+  },
+  {
+    "eventName": "persona_select",
+    "properties": {
+      "personaId": "ziva",
+      "category": "Love & Drama 💔"
+    },
+    "timestamp": "2026-03-19T10:29:00.959Z"
+  },
+  {
+    "eventName": "persona_select",
+    "properties": {
+      "personaId": "ziva",
+      "category": "Love & Drama 💔"
+    },
+    "timestamp": "2026-03-19T10:29:12.256Z"
+  },
+  {
+    "eventName": "category_switch",
+    "properties": {
+      "category": "Love & Drama 💔"
+    },
+    "timestamp": "2026-03-19T10:29:24.123Z"
+  }
+]

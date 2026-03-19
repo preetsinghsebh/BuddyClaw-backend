@@ -177,7 +177,8 @@ app.get('/api/profile/:chatId', (req, res) => {
     res.json({ ...profile, personaId });
 });
 
-app.listen(3001, () => log('API', 'Profile Sync Server listening on port 3001'));
+const API_PORT = process.env.PORT || 3001;
+app.listen(API_PORT, () => log('API', `Profile Sync Server listening on port ${API_PORT}`));
 
 /**
  * Helper to get current Indian Standard Time (IST) formatted
@@ -578,11 +579,11 @@ bot.on('message', async (msg) => {
     // 1. Basic Command Handling
     // --- COMMAND: DASHBOARD ---
     if (text === '/dashboard') {
-        const stats = userProfiles.get(chatId) || { streakCount: 0, moodScore: 50 };
+        const DASHBOARD_URL = process.env.DASHBOARD_URL || 'http://localhost:3000';
         const response = `📊 *Your RealCompanion Dashboard*\n\n` +
             `❤️ Relationship: ${stats.moodScore}%\n` +
             `🔥 Day Streak: ${stats.streakCount}\n\n` +
-            `🔗 [Open your Web Dashboard](http://localhost:3000/dashboard?id=${chatId})\n\n` +
+            `🔗 [Open your Web Dashboard](${DASHBOARD_URL}/dashboard?id=${chatId})\n\n` +
             `_Check your stats across all companions in a premium UI._`;
         
         return bot.sendMessage(chatId, response, { parse_mode: 'Markdown' });
