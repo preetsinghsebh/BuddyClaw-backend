@@ -33,3 +33,4 @@ Thumbs.db
 # Misc
 .vercel
 .railway
+render-env-group.env
