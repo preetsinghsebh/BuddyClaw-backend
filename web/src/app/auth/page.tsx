@@ -29,11 +29,20 @@ function AuthForm() {
 
     // Check for existing session on mount
     useEffect(() => {
+        // Persist personaId to localStorage if present in URL
+        if (personaId) {
+            localStorage.setItem("pendingPersonaId", personaId);
+        }
+
         const checkSession = async () => {
             const { data: { session } } = await supabase.auth.getSession();
             if (session) {
-                if (personaId) {
-                    window.location.href = getTelegramLink(personaId);
+                // Use personaId from URL or fallback to localStorage
+                const effectivePersonaId = personaId || localStorage.getItem("pendingPersonaId");
+                
+                if (effectivePersonaId) {
+                    localStorage.removeItem("pendingPersonaId"); // Clean up
+                    window.location.href = getTelegramLink(effectivePersonaId);
                 } else {
                     router.push("/customize");
                 }
@@ -44,8 +53,11 @@ function AuthForm() {
         // Listen for auth state changes
         const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
             if (event === 'SIGNED_IN' && session) {
-                if (personaId) {
-                    window.location.href = getTelegramLink(personaId);
+                const effectivePersonaId = personaId || localStorage.getItem("pendingPersonaId");
+                
+                if (effectivePersonaId) {
+                    localStorage.removeItem("pendingPersonaId"); // Clean up
+                    window.location.href = getTelegramLink(effectivePersonaId);
                 } else {
                     router.push("/customize");
                 }
@@ -71,7 +83,12 @@ function AuthForm() {
 
             const { error: otpError } = await supabase.auth.signInWithOtp(
                 method === 'email' 
-                    ? { email: formattedIdentifier } 
+                    ? { 
+                        email: formattedIdentifier,
+                        options: {
+                            emailRedirectTo: window.location.href
+                        }
+                    } 
                     : { phone: formattedIdentifier }
             );
 
@@ -187,7 +204,7 @@ function AuthForm() {
                                 id="age-gate"
                                 checked={is18Plus}
                                 onCheckedChange={(c: boolean | 'indeterminate') => setIs18Plus(c === true)}
-                                className="mt-1 data-[state=checked]:bg-[hsl(var(--accent-pink))] data-[state=checked]:border-[hsl(var(--accent-pink))]"
+                                className="mt-1 border-white/40 bg-white/5 data-[state=checked]:bg-white data-[state=checked]:text-black data-[state=checked]:border-white"
                             />
                             <div className="grid leading-none gap-1.5">
                                 <Label htmlFor="age-gate" className="text-sm font-medium leading-tight text-gray-300 cursor-pointer font-inter">

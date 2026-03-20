@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { connectDB } from "@/../../shared/database.js";
-import User from "@/../../shared/models/User.js";
+import { connectDB } from "@/shared/database";
+import User from "@/shared/models/User";
 
 // Mock mapping of roles to base prompts
 const rolePrompts: Record<string, string> = {

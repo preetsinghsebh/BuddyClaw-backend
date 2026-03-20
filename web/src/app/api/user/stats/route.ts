@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
+import { connectDB } from '@/shared/database';
+import User from '@/shared/models/User';
 
 export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
@@ -11,38 +11,32 @@ export async function GET(request: Request) {
     }
 
     try {
-        // Path to the shared persistence data
-        // Note: In production, this would be a proper DB. 
-        // For local development, we read from the common 'dostai/data' folder.
-        const dataPath = path.resolve(process.cwd(), '../data/profiles.json');
+        await connectDB();
         
-        if (!fs.existsSync(dataPath)) {
-            return NextResponse.json({ profiles: [] });
-        }
+        const user = (await User.findOne({ chatId: String(chatId) }).lean()) as any;
 
-        const raw = fs.readFileSync(dataPath, 'utf8');
-        const profiles = JSON.parse(raw); // Array of [key, value] pairs from PersistentMap
-        
-        // Find the user's profile
-        const userProfile = profiles.find(([key]: [string, any]) => String(key) === String(chatId));
-
-        if (!userProfile) {
+        if (!user) {
             return NextResponse.json({ error: 'User not found' }, { status: 404 });
         }
 
-        // Also fetch persona data to see which companions are active
-        const personasPath = path.resolve(process.cwd(), '../data/personas.json');
-        let activePersonas = [];
-        if (fs.existsSync(personasPath)) {
-            const personasRaw = fs.readFileSync(personasPath, 'utf8');
-            const personas = JSON.parse(personasRaw);
-            activePersonas = personas
-                .filter(([key]: [string, any]) => String(key) === String(chatId))
-                .map(([_, p]: [any, any]) => p);
-        }
+        // Map MongoDB fields to the frontend profile structure
+        const profile = {
+            nicknames: user.nicknames || [],
+            facts: user.facts || [],
+            streakCount: user.streak || 0,
+            moodScore: 85, // Mocked for now, can be calculated from Memory in future
+            lastChatDate: user.lastActive ? new Date(user.lastActive).toLocaleDateString() : "Recently"
+        };
+
+        // If user has a persona selected, show it as active
+        const activePersonas = user.personaId ? [{
+            id: user.personaId,
+            name: user.aiName || "Your Companion",
+            imageUrl: `/assets/companions/${user.personaId}.png` 
+        }] : [];
 
         return NextResponse.json({
-            profile: userProfile[1],
+            profile,
             activePersonas
         });
     } catch (err) {

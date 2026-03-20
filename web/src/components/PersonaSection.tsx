@@ -165,37 +165,59 @@ const activeP = localizedPersonas.find(p => p.id === activeId) || localizedPerso
                         <div style={{ padding: '1.5rem', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
                             <h3 style={{ color: '#fff', fontSize: '1.2rem', fontWeight: 600, display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
                                 Messages
+                                <span style={{ fontSize: '0.7rem', color: 'rgba(255,255,255,0.3)', fontWeight: 400 }}>Swipe to explore →</span>
                             </h3>
 
                             {/* Category Tabs */}
-                            <div style={{ 
-                                display: 'flex', 
-                                gap: '0.5rem', 
-                                overflowX: 'auto', 
-                                paddingBottom: '0.5rem',
-                                scrollbarWidth: 'none',
-                                msOverflowStyle: 'none'
-                            }} className="hide-scrollbar">
-                                {CATEGORIES.map(cat => (
-                                    <button
-                                        key={cat}
-                                        onClick={() => handleCategoryChange(cat as any)}
-                                        style={{
-                                            padding: '0.4rem 0.8rem',
-                                            borderRadius: '8px',
-                                            fontSize: '0.75rem',
-                                            fontWeight: 600,
-                                            whiteSpace: 'nowrap',
-                                            cursor: 'pointer',
-                                            transition: 'all 0.2s',
-                                            background: selectedCategory === cat ? 'rgba(255,179,0,0.15)' : 'rgba(255,255,255,0.03)',
-                                            color: selectedCategory === cat ? '#FFB300' : 'rgba(255,255,255,0.5)',
-                                            border: `1px solid ${selectedCategory === cat ? 'rgba(255,179,0,0.3)' : 'rgba(255,255,255,0.05)'}`,
-                                        }}
-                                    >
-                                        {cat}
-                                    </button>
-                                ))}
+                            <div style={{ position: 'relative' }}>
+                                <div style={{ 
+                                    display: 'flex', 
+                                    gap: '0.5rem', 
+                                    overflowX: 'auto', 
+                                    paddingBottom: '0.5rem',
+                                    paddingRight: '2.5rem', // Added padding to help clip the last visible item
+                                    scrollbarWidth: 'none',
+                                    msOverflowStyle: 'none'
+                                }} className="hide-scrollbar">
+                                    {CATEGORIES.map(cat => (
+                                        <button
+                                            key={cat}
+                                            onClick={() => handleCategoryChange(cat as any)}
+                                            style={{
+                                                padding: '0.4rem 0.8rem',
+                                                borderRadius: '8px',
+                                                fontSize: '0.75rem',
+                                                fontWeight: 600,
+                                                whiteSpace: 'nowrap',
+                                                cursor: 'pointer',
+                                                transition: 'all 0.2s',
+                                                background: selectedCategory === cat ? 'rgba(255,179,0,0.15)' : 'rgba(255,255,255,0.03)',
+                                                color: selectedCategory === cat ? '#FFB300' : 'rgba(255,255,255,0.5)',
+                                                border: `1px solid ${selectedCategory === cat ? 'rgba(255,179,0,0.3)' : 'rgba(255,255,255,0.05)'}`,
+                                            }}
+                                        >
+                                            {cat}
+                                        </button>
+                                    ))}
+                                </div>
+                                {/* Right Scroll Indicator Arrow */}
+                                <div style={{
+                                    position: 'absolute',
+                                    right: 0,
+                                    top: 0,
+                                    bottom: '0.5rem',
+                                    width: '40px',
+                                    background: 'linear-gradient(to right, transparent, #101018)',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'flex-end',
+                                    pointerEvents: 'none',
+                                    paddingRight: '4px'
+                                }}>
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFB300" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.8 }}>
+                                        <polyline points="9 18 15 12 9 6" />
+                                    </svg>
+                                </div>
                             </div>
                         </div>
                         
