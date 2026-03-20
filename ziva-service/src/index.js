@@ -26,6 +26,7 @@ if (!token) {
 log('System', 'Telegram Bot Orchestrator starting...');
 await connectDB();
 log('System', 'Telegram Bot Orchestrator live.');
+const bot = new TelegramBot(token, { polling: true });
 
 // State to track current persona, activity, and memory (Persisted via MongoDB)
 const userPersonas = new PersistentMap(User, { mode: 'mongo', service: 'ziva' });
