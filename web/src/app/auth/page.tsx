@@ -204,7 +204,8 @@ function AuthForm() {
                                  id="age-gate"
                                  checked={is18Plus}
                                  onCheckedChange={(c: boolean | 'indeterminate') => setIs18Plus(c === true)}
-                                 className="mt-1 size-5 border-2 border-white bg-white/5 data-[state=checked]:bg-white data-[state=checked]:text-black data-[state=checked]:border-white"
+                                 className="mt-1 size-5 border-2 data-[state=checked]:bg-white data-[state=checked]:text-black data-[state=checked]:border-white"
+                                 style={{ border: '2px solid white', backgroundColor: 'rgba(255, 255, 255, 0.1)' }}
                              />
                             <div className="grid leading-none gap-1.5">
                                 <Label htmlFor="age-gate" className="text-sm font-medium leading-tight text-gray-300 cursor-pointer font-inter">
