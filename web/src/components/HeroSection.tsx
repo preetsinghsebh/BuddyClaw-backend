@@ -1,6 +1,7 @@
 'use client'
 import Image from 'next/image'
 import { useEffect, useState, useRef, useCallback } from 'react'
+import { Zap } from 'lucide-react'
 
 const BADGES = [
     { icon: '🧸', label: 'Ziva', color: '#FF69B4' },
@@ -13,7 +14,7 @@ const BADGES = [
     { icon: '👀', label: 'Emma', color: '#808080' },
 ]
 
-const CYCLING_WORDS = ['FIRST TEXT.', 'LAST CHAT.', 'SAFE PLACE.', 'REAL FRIEND.', 'CHOSEN FAMILY.']
+const CYCLING_WORDS = ['GLOBAL NUANCE.', 'PERSONAL AGENCY.', 'REAL MEMORY.', 'NO FILTERS.', 'YOUR AGENT.']
 
 function useCountUp(target: number, duration = 2000, start = false) {
     const [count, setCount] = useState(0)
@@ -101,11 +102,14 @@ export default function HeroSection() {
                 overflow: 'visible',
                 color: '#fff',
                 background: isMobile ? '#05050a' : 'transparent',
+                paddingTop: isMobile ? 64 : 0,
             }}
         >
+            {/* Background Image Container */}
             <div style={{
-                position: isMobile ? 'relative' : 'absolute',
-                inset: isMobile ? 'auto' : 0,
+                position: 'absolute',
+                top: isMobile ? 64 : 0,
+                left: 0,
                 height: isMobile ? '62vh' : '100%',
                 width: '100%',
                 zIndex: 0,
@@ -113,12 +117,11 @@ export default function HeroSection() {
             }}>
                 <Image
                     src="/hero-exact.png"
-                    alt="A vibrant group of friends — anime characters and real people — celebrating together"
+                    alt="A vibrant group of friends celebrating together"
                     fill
                     style={{
                         objectFit: 'cover',
                         objectPosition: 'center top',
-                        // Parallax: move bg slower than scroll
                         transform: isMobile ? 'none' : `translateY(${scrollY * 0.3}px)`,
                         transition: 'transform 0.05s linear',
                     }}
@@ -126,10 +129,10 @@ export default function HeroSection() {
                 />
             </div>
 
-            {/* MOBILE overlay */}
+            {/* Overlays */}
             {isMobile && (
                 <div style={{
-                    position: 'absolute', top: 0, left: 0, right: 0, height: '62vh', zIndex: 1,
+                    position: 'absolute', top: 64, left: 0, right: 0, height: '62vh', zIndex: 1,
                     background: `linear-gradient(to bottom,
                         rgba(5,5,10,0.3) 0%,
                         rgba(5,5,10,0.0) 20%,
@@ -139,8 +142,6 @@ export default function HeroSection() {
                     )`,
                 }} />
             )}
-
-            {/* DESKTOP overlay */}
             {!isMobile && (
                 <div style={{
                     position: 'absolute', inset: 0, zIndex: 1,
@@ -161,23 +162,31 @@ export default function HeroSection() {
                 pointerEvents: 'none',
             }} />
 
-            {/* ============ MOBILE LAYOUT ============ */}
-            {isMobile && (
+            {/* ============ UNIFIED CONTENT LAYOUT ============ */}
+            {mounted && (
                 <div style={{
                     position: 'relative', zIndex: 10,
-                    width: isMobile ? '100%' : 'auto',
-                    padding: isMobile ? '4rem 1.4rem 6rem' : '0 4rem',
+                    width: '100%',
+                    padding: isMobile ? '400px 1.4rem 6rem' : '400px 4rem 10rem',
                     display: 'flex', flexDirection: 'column',
-                    alignItems: 'flex-start', gap: '0',
-                    background: isMobile ? '#05050a' : 'transparent',
+                    alignItems: 'flex-start',
                     textAlign: 'left',
+                    maxWidth: 1400,
+                    marginInline: 'auto',
                 }}>
                     {/* Launch Badge */}
-                    <div style={{ height: '3.5rem' }} />
+                    <div style={{ marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                        <span className="bg-white/10 backdrop-blur-md border border-white/20 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest text-lavender-300">
+                             🚀 Launch Week
+                        </span>
+                        <span className="bg-gradient-to-r from-amber-400 to-orange-500 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest text-black animate-pulse shadow-[0_0_15px_rgba(251,191,36,0.4)]">
+                             Free for All
+                        </span>
+                    </div>
 
                     <h1 style={{
                         fontFamily: 'var(--font-display)',
-                        fontSize: 'clamp(3.2rem, 14vw, 4.8rem)',
+                        fontSize: 'clamp(3.2rem, 10vw, 6.5rem)',
                         fontWeight: 300,
                         color: '#ffffff',
                         lineHeight: 1.0,
@@ -186,69 +195,78 @@ export default function HeroSection() {
                         opacity: 0.95,
                         textWrap: 'balance' as any,
                     }}>
-                        Beyond the feed. <br /> <span className="gradient-text-gold">Into the circle.</span> <br /> Your person is waiting.
+                        Companion Intelligence with a Soul. <br /> 
+                        <span className="gradient-text-gold">Truly Global. Personal. Powerful.</span> <br /> 
+                        Your person is waiting.
                     </h1>
 
-                    {/* Sub text */}
                     <p style={{
                         fontFamily: 'var(--font-body)',
-                        fontSize: '1.25rem',
+                        fontSize: isMobile ? '1.15rem' : '1.4rem',
                         color: 'rgba(255,255,255,0.7)',
                         lineHeight: 1.4,
                         marginBottom: '3.5rem',
-                        maxWidth: 360,
+                        maxWidth: isMobile ? 360 : 650,
                         fontWeight: 400,
                         letterSpacing: '0.01em',
-                        marginInline: '0',
                         opacity: 0.9,
                     }}>
-                        Stop searching through the noise. Find the connection that was built specifically for you.
+                        Powered by OpenClaw, BuddyClaw delivers the world's first AI companion that doesn't sound like a bot.
                     </p>
 
-                    {/* Primary CTA */}
-                    <a
-                        href="#experiences"
-                        className="btn-white-pill"
-                        style={{
-                            width: 'auto',
-                            padding: '0.9rem 3.5rem',
-                            fontSize: '1rem',
-                            marginBottom: '0.75rem',
-                        }}
-                    >
-                        Start chatting
-                    </a>
+                    {/* CTAs */}
+                    <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+                        <a
+                            href="#experiences"
+                            className="btn-white-pill"
+                            style={{ padding: '0.9rem 3.5rem', fontSize: '1rem' }}
+                        >
+                            Join the BuddyClaw Circle
+                        </a>
+                        {!isMobile && (
+                            <a
+                                href="/auth"
+                                className="btn-glass"
+                                style={{ 
+                                    padding: '0.9rem 3.5rem', borderRadius: 9999,
+                                    border: '1px solid rgba(255,255,255,0.2)',
+                                    background: 'rgba(255,255,255,0.05)',
+                                    color: '#fff', textDecoration: 'none',
+                                    display: 'flex', alignItems: 'center', fontSize: '1rem',
+                                }}
+                            >
+                                Sign In
+                            </a>
+                        )}
+                    </div>
 
-
+                    {/* Stats */}
                     <div ref={statRef} style={{
                         display: 'flex', alignItems: 'center', gap: '0.6rem',
-                        marginTop: '1.25rem',
-                        justifyContent: 'flex-start',
+                        marginTop: '2.5rem',
                     }}>
                         <div style={{ display: 'flex' }}>
-                            {['🧑‍🎤', '👩‍💻', '🧑‍🎨', '👩‍🚀'].map((emoji, i) => (
+                            {['🧑‍🎤', '👩‍💻', '🧑‍🎨', '👩‍🚀', '🧑‍🔬'].map((emoji, i) => (
                                 <div key={i} style={{
-                                    width: 28, height: 28, borderRadius: '50%',
+                                    width: 30, height: 30, borderRadius: '50%',
                                     background: `hsl(${i * 60}, 60%, 50%)`,
-                                    border: '2px solid rgba(5,5,10,0.8)',
-                                    marginLeft: i === 0 ? 0 : -9,
+                                    border: '2px solid rgba(10,10,15,0.8)',
+                                    marginLeft: i === 0 ? 0 : -10,
                                     display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                    fontSize: '0.75rem',
+                                    fontSize: '0.85rem',
                                 }}>{emoji}</div>
                             ))}
                         </div>
-                        <span style={{ fontFamily: 'var(--font-ui)', fontSize: '0.78rem', color: 'rgba(255,255,255,0.5)' }}>
+                        <span style={{ fontFamily: 'var(--font-ui)', fontSize: '0.82rem', color: 'rgba(255,255,255,0.5)' }}>
                             <strong style={{ color: 'var(--gold)' }}>{friendCount.toLocaleString()}+</strong> friendships sparked
                         </span>
                     </div>
 
                     {/* Vibe badges */}
                     <div style={{
-                        marginTop: '3.5rem',
-                        display: 'flex', flexWrap: 'wrap', gap: '0.5rem', justifyContent: 'flex-start',
-                        width: '100%',
-                        position: 'relative',
-                        paddingBottom: '1rem',
+                        marginTop: '4rem',
+                        display: 'flex', flexWrap: 'wrap', gap: '0.5rem',
+                        maxWidth: 800,
                     }}>
                         {BADGES.map((badge, i) => (
                             <div key={badge.label} style={{
@@ -264,173 +282,18 @@ export default function HeroSection() {
                                 color: 'rgba(255,255,255,0.8)',
                                 animation: `float ${3.5 + i * 0.4}s ease-in-out infinite`,
                                 animationDelay: `${i * 0.15}s`,
-                                zIndex: 2,
                             }}>
                                 <span>{badge.icon}</span>
                                 <span>{badge.label}</span>
                             </div>
                         ))}
                     </div>
-                </div>
-            )}
 
-            {/* ============ DESKTOP LAYOUT ============ */}
-            {!isMobile && mounted && (
-                <div style={{
-                    position: 'relative', zIndex: 10,
-                    display: 'flex', flexDirection: 'column', alignItems: 'flex-start',
-                    padding: '0 4rem',
-                    marginTop: '4rem',
-                    width: '100%',
-                    maxWidth: '1400px',
-                }}>
-
-                    {/* Launch Badge */}
-                    <div style={{ height: '5rem' }} />
-
-                    {/* Main headline */}
-                    <h1 style={{
-                        fontFamily: 'var(--font-display)',
-                        fontSize: 'clamp(4.5rem, 10vw, 8rem)',
-                        fontWeight: 300,
-                        color: '#fff',
-                        lineHeight: 1.0,
-                        letterSpacing: '-0.03em',
-                        marginBottom: '2.5rem',
-                        animation: 'fadeUp 0.6s 0.2s ease both',
-                        maxWidth: 1100,
-                        textWrap: 'balance' as any,
-                    }}>
-                        Beyond the feed. <br /> <span className="gradient-text-gold">Into the circle.</span> <br /> Your person is waiting.
-                    </h1>
-
-                    {/* Sub-headline */}
-                    <p style={{
-                        fontFamily: 'var(--font-body)',
-                        fontSize: 'clamp(1.2rem, 2.2vw, 1.55rem)',
-                        color: 'rgba(255,255,255,0.7)',
-                        marginBottom: '4rem',
-                        maxWidth: 800,
-                        lineHeight: 1.5,
-                        fontWeight: 400,
-                        letterSpacing: '0.01em',
-                        animation: 'fadeUp 0.7s 0.35s ease both',
-                    }}>
-                        Stop searching through the noise. Whether it's a stoic protector or your favorite anime legend, find the connection that was built specifically for you.
-                    </p>
-
-                    <div className="hero-btns" style={{
-                        display: 'flex', gap: '1rem', alignItems: 'center', justifyContent: 'flex-start', flexWrap: 'wrap',
-                        animation: 'fadeUp 0.7s 0.5s ease both',
-                    }}>
-                        <a
-                            href="#experiences"
-                            className="btn-white-pill"
-                            style={{ padding: '1rem 3.5rem' }}
-                        >
-                            Start chatting
-                        </a>
-                        <a
-                            href="/auth"
-                            className="btn-glass"
-                            style={{ 
-                                padding: '1rem 3.5rem',
-                                borderRadius: 9999,
-                                border: '1px solid rgba(255,255,255,0.2)',
-                                background: 'rgba(255,255,255,0.05)',
-                                color: '#fff',
-                                textDecoration: 'none',
-                                fontWeight: 500,
-                                fontSize: '1rem',
-                                backdropFilter: 'blur(10px)',
-                                transition: 'all 0.3s ease',
-                            }}
-                            onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.12)')}
-                            onMouseLeave={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.05)')}
-                        >
-                            Sign In
-                        </a>
-                    </div>
-
-                    <div ref={statRef} style={{
-                        marginTop: '2.5rem',
-                        display: 'flex', alignItems: 'center', gap: '0.75rem',
-                        animation: 'fadeUp 0.7s 0.65s ease both',
-                        justifyContent: 'flex-start',
-                    }}>
-                        <div style={{ display: 'flex' }}>
-                            {['🧑‍🎤', '👩‍💻', '🧑‍🎨', '👩‍🚀', '🧑‍🔬'].map((emoji, i) => (
-                                <div key={i} style={{
-                                    width: 32, height: 32, borderRadius: '50%',
-                                    background: `hsl(${i * 60}, 60%, 50%)`,
-                                    border: '2px solid rgba(10,10,15,0.8)',
-                                    marginLeft: i === 0 ? 0 : -10,
-                                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                    fontSize: '0.9rem',
-                                }}>{emoji}</div>
-                            ))}
-                        </div>
-                        <span style={{ fontFamily: 'var(--font-ui)', fontSize: '0.82rem', color: 'rgba(255,255,255,0.55)', fontWeight: 500 }}>
-                            <strong style={{ color: 'var(--gold)' }}>{friendCount.toLocaleString()}+</strong> friendships sparked
-                        </span>
-                    </div>
-
+                    {/* Scroll Indicator */}
                     <div style={{
-                        marginTop: '3.5rem',
-                        display: 'flex', flexWrap: 'wrap', gap: '0.6rem', justifyContent: 'flex-start',
-                        maxWidth: 700,
-                        animation: 'fadeUp 0.8s 0.8s ease both',
-                    }}>
-                        {BADGES.map((badge, i) => (
-                            <div key={badge.label} style={{
-                                display: 'flex', alignItems: 'center', gap: '0.4rem',
-                                background: 'rgba(255,255,255,0.06)',
-                                backdropFilter: 'blur(12px)',
-                                border: `1px solid ${badge.color}30`,
-                                borderRadius: 9999,
-                                padding: '0.35rem 0.9rem',
-                                fontSize: '0.8rem',
-                                fontFamily: 'var(--font-ui)',
-                                fontWeight: 600,
-                                color: 'rgba(255,255,255,0.8)',
-                                animation: `float ${3.5 + i * 0.4}s ease-in-out infinite`,
-                                animationDelay: `${i * 0.15}s`,
-                            }}>
-                                <span>{badge.icon}</span>
-                                <span>{badge.label}</span>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            )}
-
-            {/* Bottom strip + scroll indicator */}
-            {!isMobile && (
-                <>
-                    <div style={{
-                        position: 'absolute', bottom: '2rem', left: 0, right: 0,
-                        zIndex: 10, textAlign: 'center',
-                    }}>
-                        <p style={{
-                            fontFamily: 'var(--font-display)',
-                            fontSize: 'clamp(0.65rem, 1.5vw, 0.9rem)',
-                            letterSpacing: '0.2em',
-                            color: 'rgba(255,255,255,0.25)',
-                            textTransform: 'uppercase',
-                        }}>
-                            Stay Hungry. Stay Strong. ✦
-                        </p>
-                    </div>
-
-                    {/* Scroll down indicator */}
-                    <div style={{
-                        position: 'absolute', bottom: '4.5rem', left: '50%',
-                        transform: 'translateX(-50%)',
-                        zIndex: 10,
+                        position: 'absolute', bottom: '1.5rem', left: isMobile ? '1.4rem' : '4rem',
                         display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.3rem',
-                        animation: 'fadeIn 1s 1.5s ease both',
-                        opacity: scrollY > 80 ? 0 : 1,
-                        transition: 'opacity 0.4s ease',
+                        opacity: scrollY > 80 ? 0 : 1, transition: 'opacity 0.4s ease',
                     }}>
                         <div style={{
                             width: 1, height: 40,
@@ -443,7 +306,7 @@ export default function HeroSection() {
                             animation: 'float 1.5s ease-in-out infinite',
                         }} />
                     </div>
-                </>
+                </div>
             )}
         </section>
     )

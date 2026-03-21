@@ -4,8 +4,8 @@ import SectionReveal from './SectionReveal'
 const STEPS = [
     {
         number: '01',
-        title: 'STOP THE SWIPE',
-        desc: 'Skip the 50 "hey" messages that lead nowhere. Choose a companion with a pre-set vibe that matches your personality perfectly.',
+        title: 'CHOOSE YOUR PERSONA',
+        desc: 'Skip the generic "As an AI" replies. Choose a companion with a specific archetype—from stoic protectors to savage roasters—that matches your energy.',
         icon: '🎯',
         color: '#FFB300',
     },
@@ -18,8 +18,8 @@ const STEPS = [
     },
     {
         number: '03',
-        title: 'GO EXCLUSIVE',
-        desc: 'Turn a chat into a "Situationship that makes sense." A dedicated partner who remembers your lore and stays in your corner forever.',
+        title: 'PERSONAL AGENCY',
+        desc: 'Experience a companion powered by OpenClaw logic that remembers your lore, your history, and stays in your corner across every session.',
         icon: '🔒',
         color: '#E8197D',
     },

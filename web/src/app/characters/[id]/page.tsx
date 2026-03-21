@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!persona) return { title: 'Character Not Found' };
 
   return {
-    title: `${persona.name} | DostAI AI`,
+    title: `Chat with ${persona.name} on BuddyClaw`,
     description: persona.description || `Chat with ${persona.name}, your personalized AI companion.`,
     openGraph: {
       images: [persona.imageUrl || ''],

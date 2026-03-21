@@ -6,7 +6,7 @@ export default function Disclaimer() {
       <section className="space-y-8">
         <div className="bg-red-500/10 border border-red-500/20 p-8 rounded-3xl space-y-4">
             <h2 className="text-red-500 font-bold uppercase tracking-widest text-sm">Vital Warning</h2>
-            <p className="text-white text-lg">DostAI provides <strong>fictional AI characters</strong> for entertainment purposes only.</p>
+            <p className="text-white text-lg">BuddyClaw provides <strong>fictional AI characters</strong> for entertainment purposes only.</p>
         </div>
 
         <div className="space-y-6 text-white/70">

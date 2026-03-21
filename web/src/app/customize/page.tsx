@@ -50,7 +50,7 @@ export default function CustomizePage() {
 
             <div className="absolute top-6 left-6">
                 <Link href="/" className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white flex items-center gap-2">
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-lavender-500 to-rose-400">DostAI</span>
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-lavender-500 to-rose-400">BuddyClaw</span>
                     <span>❤️</span>
                 </Link>
             </div>
@@ -66,7 +66,7 @@ export default function CustomizePage() {
 
                 <div className="mb-10 text-center">
                     <h1 className="text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-white mb-3 tracking-tight">
-                        Design Your Companion
+                        BuddyClaw — Customize Your Connection
                     </h1>
                     <p className="text-gray-600 dark:text-gray-400 text-lg max-w-md mx-auto">
                         Give them a name, pick their vibe, and choose how they text you on WhatsApp.

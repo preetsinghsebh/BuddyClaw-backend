@@ -102,7 +102,7 @@ function DashboardContent() {
                     <div className="space-y-1">
                         <div className="flex items-center gap-2 text-[#FFB300] text-xs font-bold tracking-tighter uppercase mb-2">
                              <LayoutDashboard className="w-4 h-4" /> 
-                             DostAI OS v1.0
+                             BuddyClaw OS v1.0
                         </div>
                         <h1 className="text-4xl md:text-5xl font-light">
                             Welcome Back, <span className="font-medium text-[#FFB300]">{profile.nicknames[0] || "Friend"}</span>
@@ -253,7 +253,7 @@ function DashboardContent() {
                 </div>
 
                 <footer className="mt-20 pt-8 border-t border-white/5 text-center text-white/20 text-xs">
-                    DostAI Neural Link Protocol &copy; 2026. Data localized via Geo-IP.
+                    BuddyClaw Neural Link Protocol &copy; 2026. Data localized via Geo-IP.
                 </footer>
             </div>
         </div>

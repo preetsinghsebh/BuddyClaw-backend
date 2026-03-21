@@ -1,4 +1,5 @@
 'use client'
+import Image from 'next/image'
 
 const FOOTER_COLS = [
     {
@@ -50,10 +51,9 @@ export default function Footer() {
                             fontSize: '2.4rem',
                             letterSpacing: '-0.02em',
                             color: '#fff',
-                            marginBottom: '0.75rem',
                             fontWeight: 300,
                         }}>
-                            Dost<span style={{ color: 'var(--gold)', opacity: 0.9 }}>AI</span>
+                            Buddy<span style={{ color: 'var(--gold)', opacity: 0.9 }}>Claw</span>
                         </div>
                         <p style={{
                             fontFamily: 'var(--font-body)',
@@ -111,7 +111,7 @@ export default function Footer() {
                     gap: '0.5rem',
                 }}>
                     <span style={{ fontFamily: 'var(--font-ui)', fontSize: '0.78rem', color: 'rgba(255,255,255,0.2)' }}>
-                        © 2026 DostAI. All rights reserved.
+                        © 2026 BuddyClaw. All rights reserved.
                     </span>
                     <span style={{ fontFamily: 'var(--font-display)', fontSize: '0.9rem', color: 'rgba(255,179,0,0.35)', letterSpacing: '0.15em', fontWeight: 300 }}>
                         Stay hungry. Stay strong. ✦

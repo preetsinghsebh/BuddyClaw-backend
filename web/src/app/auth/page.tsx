@@ -136,7 +136,7 @@ function AuthForm() {
 
             <div className="text-center mb-8">
                 <h1 className="text-3xl font-anton text-white mb-2 tracking-wider">
-                    {persona ? `Join DostAI to chat with ${persona.name}` : "Join DostAI"}
+                    {persona ? `Join BuddyClaw to chat with ${persona.name}` : "Join BuddyClaw"}
                 </h1>
                 <p className="text-gray-400 font-inter text-sm">
                     {persona 
@@ -293,7 +293,7 @@ export default function AuthPage() {
     return (
         <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center p-4">
             <Link href="/" className="absolute top-6 left-6 text-2xl font-bold tracking-tight text-white flex items-center gap-2">
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[hsl(var(--accent-pink))] to-[hsl(var(--accent-purple))]">DostAI</span>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[hsl(var(--accent-pink))] to-[hsl(var(--accent-purple))]">BuddyClaw</span>
                 <span>❤️</span>
             </Link>
 

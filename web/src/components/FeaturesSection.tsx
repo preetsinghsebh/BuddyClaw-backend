@@ -10,14 +10,14 @@ const FEATURES = [
     },
     {
         icon: '🧬',
-        title: 'Deep Personality AI',
-        desc: 'Each friend has a unique voice, memory, and emotional depth. They remember what matters to you.',
+        title: 'Intelligence with Grit',
+        desc: 'Built on the OpenClaw agentic layer to have memory, spontaneity, and an actual personality. [FOUNDER PERK: DEEP MEMORY UNLOCKED]',
         color: '#A855F7',
     },
     {
         icon: '🌏',
-        title: 'Speaks Your Language',
-        desc: 'Hindi, English, or Hinglish — your friends switch naturally to match your vibe.',
+        title: 'Global Nuance',
+        desc: 'Whether you\'re using regional slang or professional English, our companions adapt to your cultural pulse with authentic context.',
         color: '#00C896',
     },
     {

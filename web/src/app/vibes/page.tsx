@@ -35,19 +35,19 @@ function VibesContent() {
             title: "Your Daily Horoscope",
             icon: "🌟♈",
             content: "The stars are aligning for a major breakthrough in your creative pursuits today. Trust your intuition when a sudden idea strikes—it's more than just a whim. Mercury’s influence suggests a clear path for communication, making it the perfect time to reach out to someone you've been thinking about. Stay grounded, stay curious, and let the universe guide your steps.",
-            shareText: "🌟 My Daily Horoscope - [DATE]\n\n[CONTENT]\n\nFind your vibe on DostAI! ✨"
+            shareText: "🌟 My Daily Horoscope - [DATE]\n\n[CONTENT]\n\nFind your vibe on BuddyClaw! ✨"
         },
         affirmation: {
             title: "Daily Affirmation",
             icon: "💫🤍",
             content: "I am the architect of my own happiness, and today I choose to build with love, patience, and unwavering confidence.",
-            shareText: "💫 My Daily Affirmation - [DATE]\n\n\"[CONTENT]\"\n\nStart your day with DostAI! ✨"
+            shareText: "💫 My Daily Affirmation - [DATE]\n\n\"[CONTENT]\"\n\nStart your day with BuddyClaw! ✨"
         },
         question: {
             title: "Question of the Day",
             icon: "❓✨",
             content: "What is one thing you can do today that your future self will thank you for deeply?",
-            shareText: "❓ My Daily Question - [DATE]\n\n[CONTENT]\n\nReflect with me on DostAI! ✨"
+            shareText: "❓ My Daily Question - [DATE]\n\n[CONTENT]\n\nReflect with me on BuddyClaw! ✨"
         }
     };
     const currentVibe = activeTab in vibesData ? vibesData[activeTab as keyof typeof vibesData] : vibesData.horoscope;

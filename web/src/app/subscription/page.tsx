@@ -25,7 +25,7 @@ export default function SubscriptionPage() {
 
             <div className="w-full max-w-5xl flex justify-between items-center mb-12">
                 <Link href="/" className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white flex items-center gap-2">
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-lavender-500 to-rose-400">DostAI</span>
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-lavender-500 to-rose-400">BuddyClaw</span>
                     <span>❤️</span>
                 </Link>
                 <div className="text-sm font-medium text-gray-500 bg-white/50 dark:bg-black/50 px-4 py-2 rounded-full border border-gray-200 dark:border-gray-800 backdrop-blur-sm">
@@ -38,7 +38,7 @@ export default function SubscriptionPage() {
                     Choose Your Plan
                 </h1>
                 <p className="text-gray-600 dark:text-gray-400 text-lg max-w-xl mx-auto">
-                    Start for free, or upgrade for unlimited 24/7 access to your companion and advanced memory features.
+                    During our 30-day "Free for All" launch, all users get True Companion features for free. Sign up now to claim your permanent Founder perks.
                 </p>
             </div>
 
@@ -95,11 +95,12 @@ export default function SubscriptionPage() {
                         <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2 flex items-center gap-2">
                             True Companion <Zap className="w-5 h-5 text-amber-500 fill-amber-500" />
                         </h3>
-                        <div className="flex items-baseline gap-1 text-gray-900 dark:text-white">
-                            <span className="text-4xl font-extrabold">₹399</span>
-                            <span className="text-gray-500 dark:text-gray-400">/ month</span>
+                         <div className="flex items-baseline gap-1 text-gray-900 dark:text-white">
+                            <span className="text-4xl font-extrabold line-through opacity-30 text-rose-500">₹399</span>
+                            <span className="text-4xl font-extrabold">₹0</span>
+                            <span className="text-gray-500 dark:text-gray-400">/ launch month</span>
                         </div>
-                        <p className="text-sm text-gray-500 mt-2">Unlimited 24/7 emotional support.</p>
+                        <p className="text-sm text-lavender-600 dark:text-lavender-400 font-bold mt-2">Unlimited 24/7 access + Founder Badge included!</p>
                     </div>
 
                     <ul className="space-y-4 mb-8 flex-1">
@@ -107,7 +108,7 @@ export default function SubscriptionPage() {
                             "Unlimited Daily Messages",
                             "Deep Infinite Memory",
                             "Dedicated 24/7 Availability",
-                            "Bring your own Sarvam API Key",
+                            "Priority Infrastructure Access",
                             "Priority Support"
                         ].map((feature, i) => (
                             <li key={i} className="flex items-center gap-3 text-gray-800 dark:text-gray-200">
@@ -127,7 +128,7 @@ export default function SubscriptionPage() {
                         onClick={() => handleSelectPlan("premium")}
                         disabled={loading !== null}
                     >
-                        {loading === "premium" ? "Loading payment..." : "Upgrade to Premium"}
+                        {loading === "premium" ? "Loading payment..." : "Get Free Founder Access"}
                     </Button>
                 </motion.div>
 

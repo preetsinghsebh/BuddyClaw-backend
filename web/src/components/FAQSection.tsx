@@ -8,7 +8,7 @@ const FAQS = [
     },
     {
         q: 'Do I need to download an app?',
-        a: 'Nope! DostAI runs entirely on Telegram, which you probably already have. Just tap the link, and you\'re in.'
+        a: 'Nope! BuddyClaw runs entirely on Telegram, which you probably already have. Just tap the link, and you\'re in.'
     },
     {
         q: 'Are my conversations private?',
@@ -23,8 +23,12 @@ const FAQS = [
         a: 'Your companions speak fluent English, Hindi, and Hinglish. They naturally switch based on how you talk to them.'
     },
     {
-        q: 'Is this suitable for all ages?',
-        a: 'DostAI is designed for users 16 and older. Some companion categories may have age-appropriate content restrictions.'
+        q: "Is BuddyClaw safe for my data?",
+        a: 'Yes. We use secure cloud persistence and never sell your data. You have full control — use /wipememory anytime to clear your history.'
+    },
+    {
+        q: 'What is Founder Access?',
+        a: 'The BuddyClaw Circle is our way of rewarding early supporters! If you join during our launch week, you get exclusive Circle status—which includes free lifetime access to core features, a unique "Founder" badge, and priority access to new AI characters before they go public.'
     },
 ]
 

@@ -1,6 +1,6 @@
 {
-  "name": "DostAI - Your AI Companion",
-  "short_name": "DostAI",
+  "name": "BuddyClaw",
+  "short_name": "BuddyClaw",
   "description": "Premium AI companions that remember everything. Chat with Ziva, Liam, and more.",
   "start_url": "/",
   "display": "standalone",

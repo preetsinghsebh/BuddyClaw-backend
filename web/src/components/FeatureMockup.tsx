@@ -69,7 +69,7 @@ export function FeatureMockup() {
             <div className="relative w-full max-w-[320px] mx-auto aspect-[9/19] rounded-[3rem] border-8 border-primary/5 bg-background shadow-[0_20px_50px_-12px_rgba(0,0,0,0.1)] overflow-hidden flex flex-col flex-shrink-0 z-20">
                 {/* Phone Status/Header Bar */}
                 <div className="h-16 flex flex-shrink-0 items-center justify-center border-b border-primary/5 bg-primary/5 backdrop-blur-md sticky top-0 z-10 w-full">
-                    <div className="font-bold text-sm text-primary tracking-wide">DostAI</div>
+                    <div className="font-bold text-sm text-primary tracking-wide">BuddyClaw</div>
                     <div className="absolute right-6 w-2 h-2 rounded-full bg-[hsl(var(--accent-pink))] animate-pulse" />
                 </div>
 
