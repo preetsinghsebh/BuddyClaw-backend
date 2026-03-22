@@ -42,16 +42,6 @@ export const getTelegramLink = (pId: string, action: 'persona' | 'interpret' | '
         return `https://t.me/MindReset_Companion_Bot?start=${startPrefix}${personaId}`;
     }
 
-    // 3. LEGACY / EXTERNAL FALLBACKS (If user still sees old IDs)
-    const legacyMappings: Record<string, string> = {
-        'sweetie': 'https://t.me/Ziva_Companion_bot',
-        'sweet_gf': 'https://t.me/Ziva_Companion_bot',
-        'partner': 'https://t.me/Liam_Companion_Bot',
-        'protective_bf': 'https://t.me/Liam_Companion_Bot',
-        'flirty-stranger': 'https://t.me/Emma_Companion_Bot'
-    };
-    if (legacyMappings[personaId]) return `${legacyMappings[personaId]}?start=${startPrefix}${personaId}`;
-
-    // 4. GLOBAL FALLBACK (Real_Companion_Bot)
-    return `https://t.me/Real_Companion_Bot?start=${startPrefix}${personaId}`;
+    // 3. GLOBAL FALLBACK (Should only happen if ID is missing above)
+    return `https://t.me/BuddyClaw_Companion_Bot?start=${startPrefix}${personaId}`;
 };
