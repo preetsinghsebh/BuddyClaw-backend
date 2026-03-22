@@ -157,7 +157,8 @@ const personaDisplayNames = {
     'dax-johnson': 'Dax Johnson',
     'kain-west': 'Kain West',
     'kendro-lamar': 'Kendro Lamar',
-    'zay-rukh': 'Zay Rukh'
+    'zay-rukh': 'Zay Rukh',
+    'naruto': 'Naruto Uzumaki'
 };
 
 const WEB_TO_INTERNAL_ID = {
@@ -186,7 +187,8 @@ const WEB_TO_INTERNAL_ID = {
     'dax-johnson': 'iron',
     'kain-west': 'elon_spark',
     'kendro-lamar': 'kendro-lamar',
-    'zay-rukh': 'srk_charm'
+    'zay-rukh': 'srk_charm',
+    'naruto': 'anime_naruto'
 };
 
 // Express Setup for Dashboard Sync
