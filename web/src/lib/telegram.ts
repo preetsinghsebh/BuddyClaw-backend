@@ -42,6 +42,6 @@ export const getTelegramLink = (pId: string, action: 'persona' | 'interpret' | '
         return `https://t.me/MindReset_Companion_Bot?start=${startPrefix}${personaId}`;
     }
 
-    // 3. GLOBAL FALLBACK (Should only happen if ID is missing above)
-    return `https://t.me/BuddyClaw_Companion_Bot?start=${startPrefix}${personaId}`;
+    // 3. GLOBAL FALLBACK (Safety Catch-all: Points to Anime Hub)
+    return `https://t.me/Anime_Companion_Bot?start=${startPrefix}${personaId}`;
 };

@@ -1,5 +1,47 @@
 import fs from 'fs';
 import path from 'path';
+import Log from './models/Log.js';
+
+/**
+ * Telemetry: Centralized logging class that records to both console and MongoDB.
+ */
+export class Telemetry {
+    constructor(service) {
+        this.service = service;
+    }
+
+    async log(level, message, metadata = {}, chatId = null, personaId = null) {
+        const timestamp = new Date().toISOString();
+        const logContent = `[${timestamp}] [${this.service.toUpperCase()}] [${level.toUpperCase()}] ${message}`;
+        
+        // Always console log
+        if (level === 'error') console.error(logContent, metadata);
+        else if (level === 'warn') console.warn(logContent, metadata);
+        else console.log(logContent);
+
+        // Persistent Log to MongoDB if connected
+        try {
+            if (Log && Log.create) {
+                await Log.create({
+                    service: this.service,
+                    level: level,
+                    message: message,
+                    chatId: chatId,
+                    personaId: personaId,
+                    metadata: metadata
+                });
+            }
+        } catch (err) {
+            // Silently fail if DB is not connected to avoid crashing the service
+            console.error(`[Telemetry:DB] Log failed: ${err.message}`);
+        }
+    }
+
+    info(message, metadata, chatId, personaId) { return this.log('info', message, metadata, chatId, personaId); }
+    warn(message, metadata, chatId, personaId) { return this.log('warn', message, metadata, chatId, personaId); }
+    error(message, metadata, chatId, personaId) { return this.log('error', message, metadata, chatId, personaId); }
+    debug(message, metadata, chatId, personaId) { return this.log('debug', message, metadata, chatId, personaId); }
+}
 
 /**
  * PersistentMap: A Map wrapper that periodically syncs to its backend.
@@ -26,10 +68,12 @@ export class PersistentMap extends Map {
         try {
             if (fs.existsSync(this.filePath)) {
                 const raw = fs.readFileSync(this.filePath, 'utf8');
-                const data = JSON.parse(raw);
-                if (Array.isArray(data)) {
-                    data.forEach(([key, value]) => super.set(key, value));
-                    console.log(`[Persistence:JSON] Loaded ${this.size} records from ${path.basename(this.filePath)}`);
+                if (raw.trim()) {
+                    const data = JSON.parse(raw);
+                    if (Array.isArray(data)) {
+                        data.forEach(([key, value]) => super.set(key, value));
+                        console.log(`[Persistence:JSON] Loaded ${this.size} records from ${path.basename(this.filePath)}`);
+                    }
                 }
             } else {
                 fs.mkdirSync(path.dirname(this.filePath), { recursive: true });
@@ -51,7 +95,8 @@ export class PersistentMap extends Map {
                         { ...value, chatId: key },
                         { upsert: true }
                     );
-                } else if (this.model.modelName === 'Memory') {
+                } else if (this.model.modelName === 'Memory' || this.model.modelName === 'Chat') {
+                    // Optimized for both Memory and Chat models
                     await this.model.findOneAndUpdate(
                         { chatId: key, service: this.service },
                         { summary: value, chatId: key, service: this.service },
@@ -104,13 +149,17 @@ export class VectorMemory {
     }
 
     async add(chatId, text) {
+        if (!text || text.length < 5) return; // Ignore very short messages
+        
         if (this.mode === 'json') {
             const memories = this.persistentMap.get(chatId) || [];
             memories.push({
                 text,
                 timestamp: new Date().toISOString(),
-                keywords: text.toLowerCase().split(' ').filter(w => w.length > 3)
+                keywords: text.toLowerCase().split(/[\s,!?.]+/).filter(w => w.length > 3)
             });
+            // Keep only latest 50 anchors to avoid bloat
+            if (memories.length > 50) memories.shift();
             this.persistentMap.set(chatId, memories);
         } else {
             try {
@@ -119,8 +168,11 @@ export class VectorMemory {
                     { 
                         $push: { 
                             anchors: { 
-                                text, 
-                                keywords: text.toLowerCase().split(' ').filter(w => w.length > 3) 
+                                $each: [{ 
+                                    text, 
+                                    keywords: text.toLowerCase().split(/[\s,!?.]+/).filter(w => w.length > 3) 
+                                }],
+                                $slice: -50 // Keep latest 50
                             } 
                         } 
                     },
@@ -133,6 +185,8 @@ export class VectorMemory {
     }
 
     async query(chatId, queryText, limit = 3) {
+        if (!queryText) return [];
+        
         let memories = [];
         if (this.mode === 'json') {
             memories = this.persistentMap.get(chatId) || [];
@@ -142,18 +196,29 @@ export class VectorMemory {
         }
 
         if (!memories.length) return [];
-        const queryWords = queryText.toLowerCase().split(' ').filter(w => w.length > 3);
         
+        const queryWords = queryText.toLowerCase().split(/[\s,!?.]+/).filter(w => w.length > 3);
+        if (queryWords.length === 0) return [];
+
         const scored = memories.map(m => {
             let score = 0;
+            const textLower = m.text.toLowerCase();
+            
+            // Keyword scoring
             queryWords.forEach(q => {
-                if (m.text.toLowerCase().includes(q)) score += 1;
+                if (textLower.includes(q)) score += 2; // Exact word match
+                else if (q.length > 5 && textLower.includes(q.slice(0, -1))) score += 1; // Partial match
             });
+
+            // Recency bias: Newer memories get a slight boost
+            const ageFactor = (new Date() - new Date(m.timestamp)) / (1000 * 60 * 60 * 24); // age in days
+            score *= Math.max(0.5, 1 - (ageFactor / 30)); // 30-day decay
+
             return { ...m, score };
         });
 
         return scored
-            .filter(m => m.score > 0)
+            .filter(m => m.score > 0.5)
             .sort((a, b) => b.score - a.score)
             .slice(0, limit)
             .map(m => m.text);

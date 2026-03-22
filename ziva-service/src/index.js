@@ -6,14 +6,16 @@ import cron from 'node-cron';
 import express from 'express';
 import cors from 'cors';
 import { enforceSafetyLayer, detectCrisis } from './safety/disclaimer.js';
-import { PersistentMap, VectorMemory } from '../../shared/persistence.js';
+import { PersistentMap, VectorMemory, Telemetry } from '../../shared/persistence.js';
 import { connectDB } from '../../shared/database.js';
+import { apiLimiter, verifyInternalToken } from '../../shared/security.js';
 import User from '../../shared/models/User.js';
 import Memory from '../../shared/models/Memory.js';
 import Chat from '../../shared/models/Chat.js';
 
-// Setup basic developer logging
-const log = (module, msg) => console.log(`[${new Date().toISOString()}] [${module}] ${msg}`);
+// Setup production-grade telemetry
+const telemetry = new Telemetry('ziva');
+const log = (module, msg) => telemetry.info(`[${module}] ${msg}`);
 
 const token = process.env.TELEGRAM_BOT_TOKEN;
 let PROXY_URL = process.env.SARVAM_PROXY_URL || 'http://localhost:3000/v1/chat/completions';
@@ -195,8 +197,12 @@ const WEB_TO_INTERNAL_ID = {
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use(apiLimiter); // Apply rate limiting to all routes
 
-app.get('/api/profile/:chatId', (req, res) => {
+// Health Check for Render
+app.get('/health', (req, res) => res.status(200).json({ status: 'healthy', service: 'ziva', timestamp: new Date().toISOString() }));
+
+app.get('/api/profile/:chatId', verifyInternalToken, (req, res) => {
     const { chatId } = req.params;
     const profile = userProfiles.get(chatId) || { streakCount: 0, moodScore: 50, nicknames: [], memoryCapsules: [] };
     const personaId = userPersonas.get(chatId) || 'sweet_gf';
@@ -603,8 +609,9 @@ async function summarizeConversation(chatId, history) {
 }
 
 bot.on('message', async (msg) => {
-    const chatId = msg.chat.id;
-    let text = msg.text || msg.caption;
+    try {
+        const chatId = msg.chat.id;
+        let text = msg.text || msg.caption;
 
     // If the user sent a photo without a caption, tell the LLM they sent an image
     if (msg.photo && !text) {
@@ -855,7 +862,9 @@ bot.on('message', async (msg) => {
             "oops, kuch glitch hua. dobara bhejo!"
         ];
         const errMsg = errorMsgs[Math.floor(Math.random() * errorMsgs.length)];
-        safeSendMessage(chatId, errMsg);
+    }
+    } catch (err) {
+        telemetry.error(`Global Bot Error for Chat ${msg?.chat?.id}: ${err.message}`, { stack: err.stack });
     }
 });
 
