@@ -34,6 +34,12 @@ The backend consists of several microservices, each handling specific characters
     pm2 start ecosystem.config.cjs
     ```
 
+## 👤 About the Creator
+
+**BuddyClaw** is envisioned and developed by **Preet Singh**. 
+
+The project aims to redefine AI companionship by moving beyond simple chat interfaces into a world of persistent, agentic entities that remember, grow, and interact with users across multiple platforms.
+
 ## 📜 License
 
 Copyright © 2026 BuddyClaw. All rights reserved.

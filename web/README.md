@@ -41,4 +41,12 @@ The frontend is optimized for deployment on Vercel or as a static export, connec
 
 ---
 
+## 👤 About the Creator
+
+**BuddyClaw** is the brainchild of **Preet Singh**. 
+
+This frontend is designed to be the window into an ecosystem of AI companions that feel real, personal, and connected.
+
+---
+
 © 2026 BuddyClaw. Your People Found You.
