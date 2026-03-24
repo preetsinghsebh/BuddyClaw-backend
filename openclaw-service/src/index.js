@@ -230,6 +230,14 @@ function getISTTime() {
 function detectLanguage(text) {
     if (!text || text.trim().length === 0) return 'english'; // Default to English for first starts
 
+    // Explicit language override requests always win
+    const lower = text.toLowerCase().trim();
+    if (/^(english|speak english|reply in english|talk in english|english only|use english|in english)$/i.test(lower) ||
+        lower.includes('speak in english') || lower.includes('reply in english') ||
+        lower.includes('talk in english') || lower.includes('english only')) {
+        return 'english';
+    }
+
     // Hindi Unicode range (Devanagari)
     const hindiChars = (text.match(/[\u0900-\u097F]/g) || []).length;
     const totalChars = text.replace(/\s/g, '').length;
