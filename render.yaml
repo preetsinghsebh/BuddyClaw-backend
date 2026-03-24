@@ -45,6 +45,11 @@ services:
       - fromGroup: dostai-shared
       - key: TELEGRAM_BOT_TOKEN
         sync: false
+      - key: SARVAM_PROXY_URL
+        fromService:
+          name: sarvam-proxy
+          type: web
+          property: host
     healthCheckPath: /health
 
   # 4. Liam Service
@@ -60,6 +65,11 @@ services:
       - fromGroup: dostai-shared
       - key: TELEGRAM_BOT_TOKEN
         sync: false
+      - key: SARVAM_PROXY_URL
+        fromService:
+          name: sarvam-proxy
+          type: web
+          property: host
     healthCheckPath: /health
 
   # 5. Anime Service
@@ -75,6 +85,11 @@ services:
       - fromGroup: dostai-shared
       - key: TELEGRAM_BOT_TOKEN
         sync: false
+      - key: SARVAM_PROXY_URL
+        fromService:
+          name: sarvam-proxy
+          type: web
+          property: host
     healthCheckPath: /health
 
   # 6. Celeb Service
@@ -90,6 +105,11 @@ services:
       - fromGroup: dostai-shared
       - key: TELEGRAM_BOT_TOKEN
         sync: false
+      - key: SARVAM_PROXY_URL
+        fromService:
+          name: sarvam-proxy
+          type: web
+          property: host
     healthCheckPath: /health
 
   # 7. SafeSpace Service
@@ -105,6 +125,11 @@ services:
       - fromGroup: dostai-shared
       - key: TELEGRAM_BOT_TOKEN
         sync: false
+      - key: SARVAM_PROXY_URL
+        fromService:
+          name: sarvam-proxy
+          type: web
+          property: host
     healthCheckPath: /health
 
   # 8. MindReset Service
@@ -120,6 +145,11 @@ services:
       - fromGroup: dostai-shared
       - key: TELEGRAM_BOT_TOKEN
         sync: false
+      - key: SARVAM_PROXY_URL
+        fromService:
+          name: sarvam-proxy
+          type: web
+          property: host
     healthCheckPath: /health
 
   # 9. Web Frontend (Next.js)

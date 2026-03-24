@@ -31,6 +31,10 @@ if (!token) {
     process.exit(1);
 }
 
+if (PROXY_URL.includes('localhost') && process.env.NODE_ENV === 'production') {
+    console.error('WARNING: SARVAM_PROXY_URL is not set — falling back to localhost which will FAIL on Render. Set SARVAM_PROXY_URL in environment variables.');
+}
+
 log('System', 'Telegram Bot Orchestrator starting...');
 await connectDB();
 log('System', 'Telegram Bot Orchestrator live.');
@@ -594,7 +598,7 @@ async function summarizeConversation(chatId, history) {
             ? `[LONG-TERM MEMORY: ${memoryFragment}]\nMemory_Summarizer`
             : "Memory_Summarizer";
 
-        const response = await axios.post(SARVAM_PROXY_URL, {
+        const response = await axios.post(PROXY_URL, {
             content: `Summarize the following conversation into a short "Memory Fragment" (max 2 lines). Focus on facts about the user (name, job, pets, mood). 
             Conversation: ${history.map(h => `${h.role}: ${h.content}`).join('\n')}`,
             persona: "Memory_Summarizer"
