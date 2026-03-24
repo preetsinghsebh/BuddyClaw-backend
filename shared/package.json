@@ -5,6 +5,7 @@
   "type": "module",
   "main": "database.js",
   "dependencies": {
+    "dotenv": "^17.3.1",
     "mongoose": "^9.3.1"
   }
 }
