@@ -220,7 +220,6 @@ const WEB_TO_INTERNAL_ID = {
         app.use('/ziva', router);
         app.listen(port, () => log('API', `Profile Sync Server listening on port ${port}`));
     }
-}
 
 /**
  * Helper to get current Indian Standard Time (IST) formatted
@@ -1040,6 +1039,7 @@ cron.schedule('0 8 * * *', async () => {
 });
 
 process.on('SIGINT', () => {
-    bot.stopPolling();
+    if (bot) bot.stopPolling();
     process.exit();
 });
+}
