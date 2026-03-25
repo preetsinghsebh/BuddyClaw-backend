@@ -19,11 +19,11 @@ let bot;
 let userPersonas, userActivity, userMemories, userProfiles, userSubscriptions, userMessageHistory, userChatHistory, anchorMemories;
 let PROXY_URL;
 
-export async function init(sharedApp = null) {
-    const token = process.env.TELEGRAM_BOT_TOKEN;
+export async function init(sharedApp = null, customToken = null) {
+    const token = customToken || process.env.TELEGRAM_BOT_TOKEN;
     PROXY_URL = process.env.SARVAM_PROXY_URL || 'http://localhost:3000/v1/chat/completions';
     if (!token) {
-        console.error('CRITICAL: TELEGRAM_BOT_TOKEN is missing');
+        log('System', 'WARNING: TELEGRAM_BOT_TOKEN is missing for Ziva');
         return;
     }
 

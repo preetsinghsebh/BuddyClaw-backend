@@ -45,15 +45,15 @@ async function start() {
     log('Master', '📦 Initializing Sarvam Proxy...');
     await initProxy(app);
 
-    log('Master', '🤖 Initializing Bot Microservices...');
-    // Sequential initialization to ensure routes are mounted and polling starts correctly
-    await initZiva(app);
-    await initLiam(app);
-    await initAnime(app);
-    await initCeleb(app);
-    await initSafeSpace(app);
-    await initMindReset(app);
-    await initOpenClaw(app);
+    log('Master', '🤖 Initializing Bot Microservices with unique tokens...');
+    // Sequential initialization with specific tokens from environment
+    await initZiva(app, process.env.ZIVA_BOT_TOKEN);
+    await initLiam(app, process.env.LIAM_BOT_TOKEN);
+    await initAnime(app, process.env.ANIME_BOT_TOKEN);
+    await initCeleb(app, process.env.CELEB_BOT_TOKEN);
+    await initSafeSpace(app, process.env.SAFESPACE_BOT_TOKEN);
+    await initMindReset(app, process.env.MINDRESET_BOT_TOKEN);
+    await initOpenClaw(app, process.env.OPENCLAW_BOT_TOKEN);
 
     // 4. Global Health Check
     app.get('/health', (req, res) => {

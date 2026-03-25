@@ -1,14 +1,24 @@
 {
-  "name": "dostai-root",
+  "name": "dostai-mono-service",
   "version": "1.0.0",
-  "description": "BuddyClaw Backend: Microservices-based AI companion ecosystem built on OpenClaw.",
+  "type": "module",
+  "description": "BuddyClaw Backend: Consolidated Mono-service AI companion ecosystem.",
+  "main": "combined-service.js",
   "scripts": {
-    "build": "echo 'Root build not required. Use Blueprint to deploy individual services.'",
-    "install-all": "npm install --prefix anime-service && npm install --prefix celeb-service && npm install --prefix liam-service && npm install --prefix mindreset-service && npm install --prefix openclaw-service && npm install --prefix safespace-service && npm install --prefix sarvam-proxy && npm install --prefix ziva-service && npm install --prefix web"
+    "start": "node combined-service.js",
+    "install-all": "npm install && npm install --prefix web",
+    "build": "echo 'Root build not required. Deployment uses combined-service.js.'"
   },
   "dependencies": {
-    "dotenv": "^17.3.1",
-    "express-rate-limit": "^8.3.1",
-    "node-fetch": "^3.3.2"
+    "axios": "^1.7.9",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "express-rate-limit": "^7.5.0",
+    "mongoose": "^8.8.4",
+    "node-cron": "^3.0.3",
+    "node-fetch": "^3.3.2",
+    "node-telegram-bot-api": "^0.66.0",
+    "openai": "^4.73.0"
   }
 }

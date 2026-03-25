@@ -22,8 +22,8 @@ let bot;
 let userPersonas, userActivity, userProfiles, userSubscriptions, userMessageHistory, userChatHistory, userMemories, anchorMemories;
 let PROXY_URL;
 
-export async function init(sharedApp = null) {
-    const token = process.env.TELEGRAM_BOT_TOKEN;
+export async function init(sharedApp = null, customToken = null) {
+    const token = customToken || process.env.TELEGRAM_BOT_TOKEN;
     PROXY_URL = process.env.SARVAM_PROXY_URL || 'http://localhost:3000/v1/chat/completions';
 
 // 2. Parse and fix port/hostname/path
