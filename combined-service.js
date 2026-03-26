@@ -47,20 +47,22 @@ async function start() {
 
     log('Master', '🤖 Initializing Bot Microservices with unique tokens...');
     // Sequential initialization with specific tokens from environment
-    await initZiva(app, process.env.ZIVA_BOT_TOKEN);
-    await initLiam(app, process.env.LIAM_BOT_TOKEN);
-    await initAnime(app, process.env.ANIME_BOT_TOKEN);
-    await initCeleb(app, process.env.CELEB_BOT_TOKEN);
-    await initSafeSpace(app, process.env.SAFESPACE_BOT_TOKEN);
-    await initMindReset(app, process.env.MINDRESET_BOT_TOKEN);
-    await initOpenClaw(app, process.env.OPENCLAW_BOT_TOKEN);
+    await initZiva(app, process.env.ZIVA_BOT_TOKEN, 'ziva');
+    await initLiam(app, process.env.LIAM_BOT_TOKEN, 'liam');
+    await initZiva(app, process.env.EMMA_BOT_TOKEN, 'emma');
+    await initLiam(app, process.env.ZANE_BOT_TOKEN, 'zane');
+    await initAnime(app, process.env.ANIME_BOT_TOKEN, 'anime');
+    await initCeleb(app, process.env.CELEB_BOT_TOKEN, 'celeb');
+    await initSafeSpace(app, process.env.SAFESPACE_BOT_TOKEN, 'safespace');
+    await initMindReset(app, process.env.MINDRESET_BOT_TOKEN, 'mindreset');
+    await initOpenClaw(app, process.env.OPENCLAW_BOT_TOKEN, 'chaos');
 
     // 4. Global Health Check
     app.get('/health', (req, res) => {
         res.json({
             status: 'healthy',
             service: 'dostai-combined',
-            subservices: ['proxy', 'ziva', 'liam', 'anime', 'celeb', 'safespace', 'mindreset', 'openclaw'],
+            subservices: ['proxy', 'ziva', 'liam', 'emma', 'zane', 'anime', 'celeb', 'safespace', 'mindreset', 'chaos'],
             timestamp: new Date().toISOString(),
             uptime: process.uptime(),
             env: process.env.NODE_ENV
@@ -70,7 +72,7 @@ async function start() {
     // 5. Start Server
     app.listen(PORT, '0.0.0.0', () => {
         log('Master', `✨ DostAI Mono-Service live on port ${PORT}`);
-        log('Master', 'All 8 backend microservices active and shared.');
+        log('Master', 'All 10 backend components (9 bots + 1 proxy) active and shared.');
     });
 }
 

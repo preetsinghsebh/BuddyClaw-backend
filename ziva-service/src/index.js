@@ -13,26 +13,23 @@ import User from '../../shared/models/User.js';
 import Memory from '../../shared/models/Memory.js';
 import Chat from '../../shared/models/Chat.js';
 // Setup production-grade telemetry
-const telemetry = new Telemetry('ziva');
-const log = (module, msg) => telemetry.info(`[${module}] ${msg}`);
 
-let bot;
-let userPersonas, userActivity, userMemories, userProfiles, userSubscriptions, userMessageHistory, userChatHistory, anchorMemories;
-let PROXY_URL;
-
-export async function init(sharedApp = null, customToken = null) {
+export async function init(sharedApp = null, customToken = null, serviceName = 'ziva') {
     const token = customToken || process.env.TELEGRAM_BOT_TOKEN;
-    PROXY_URL = process.env.SARVAM_PROXY_URL || 'http://localhost:3000/v1/chat/completions';
+    const PROXY_URL = process.env.SARVAM_PROXY_URL || 'http://localhost:3000/v1/chat/completions';
+    
     if (!token) {
-        log('System', 'WARNING: TELEGRAM_BOT_TOKEN is missing for Ziva');
+        console.error(`[${serviceName}] WARNING: TELEGRAM_BOT_TOKEN is missing`);
         return;
     }
 
-    log('System', 'Telegram Bot Orchestrator starting...');
+    const telemetry = new Telemetry(serviceName);
+    const log = (module, msg) => telemetry.info(`[${module}] ${msg}`);
+
+    log('System', `${serviceName} Bot Orchestrator starting...`);
     // Note: Database connection is handled by the master service
-    log('System', 'Telegram Bot Orchestrator live.');
     
-    bot = new TelegramBot(token, { polling: true });
+    const bot = new TelegramBot(token, { polling: true });
 
 // Track service start time to detect cold-start wake-ups
 const SERVICE_START_TIME = Date.now();
@@ -41,14 +38,14 @@ const warnedUsers = new Set(); // Only warn each user once per cold start
 
 
     // State to track current persona, activity, and memory (Persisted via MongoDB)
-    userPersonas = new PersistentMap(User, { mode: 'mongo', service: 'ziva' });
-    userActivity = new PersistentMap(User, { mode: 'mongo', service: 'ziva' });
-    userMemories = new PersistentMap(Memory, { mode: 'mongo', service: 'ziva' });
-    userProfiles = new PersistentMap(User, { mode: 'mongo', service: 'ziva' }); 
-    userSubscriptions = new PersistentMap(User, { mode: 'mongo', service: 'ziva' }); 
-    userMessageHistory = new PersistentMap(Chat, { mode: 'mongo', service: 'ziva' }); 
-    userChatHistory = new PersistentMap(Chat, { mode: 'mongo', service: 'ziva' }); 
-    anchorMemories = new VectorMemory(Memory, { mode: 'mongo', service: 'ziva' });
+    const userPersonas = new PersistentMap(User, { mode: 'mongo', service: serviceName });
+    const userActivity = new PersistentMap(User, { mode: 'mongo', service: serviceName });
+    const userMemories = new PersistentMap(Memory, { mode: 'mongo', service: serviceName });
+    const userProfiles = new PersistentMap(User, { mode: 'mongo', service: serviceName }); 
+    const userSubscriptions = new PersistentMap(User, { mode: 'mongo', service: serviceName }); 
+    const userMessageHistory = new PersistentMap(Chat, { mode: 'mongo', service: serviceName }); 
+    const userChatHistory = new PersistentMap(Chat, { mode: 'mongo', service: serviceName }); 
+    const anchorMemories = new VectorMemory(Memory, { mode: 'mongo', service: serviceName });
 
 /**
  * Tracks a message ID for later cleanup
@@ -203,22 +200,23 @@ const WEB_TO_INTERNAL_ID = {
     router.use(apiLimiter);
 
     // Health Check
-    router.get('/health', (req, res) => res.status(200).json({ status: 'healthy', service: 'ziva', timestamp: new Date().toISOString() }));
+    router.get('/health', (req, res) => res.status(200).json({ status: 'healthy', service: serviceName, timestamp: new Date().toISOString() }));
 
     router.get('/api/profile/:chatId', verifyInternalToken, (req, res) => {
         const { chatId } = req.params;
         const profile = userProfiles.get(chatId) || { streakCount: 0, moodScore: 50, nicknames: [], memoryCapsules: [] };
-        const personaId = userPersonas.get(chatId) || 'sweet_gf';
+        const defaultPersona = (serviceName === 'emma') ? 'sweetie' : 'sweet_gf';
+        const personaId = userPersonas.get(chatId) || defaultPersona;
         res.json({ ...profile, personaId });
     });
 
     if (sharedApp) {
-        sharedApp.use('/ziva', router);
-        log('API', 'Ziva Profile Sync mounted to /ziva');
+        sharedApp.use(`/${serviceName}`, router);
+        log('API', `${serviceName} Profile Sync mounted to /${serviceName}`);
     } else {
         const port = process.env.PORT || 3006;
         const app = express();
-        app.use('/ziva', router);
+        app.use(`/${serviceName}`, router);
         app.listen(port, () => log('API', `Profile Sync Server listening on port ${port}`));
     }
 
@@ -393,7 +391,7 @@ async function getCharacterResponse(personaId, userText, isNudge = false, chatId
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-            model: 'sarvam-m',
+            model: 'sarvam-105b',
             messages,
             temperature,
             stream: false
@@ -788,7 +786,8 @@ bot.on('message', async (msg) => {
 
     // 3. Inference via Sarvam Proxy
     try {
-        const personaId = userPersonas.get(chatId) || 'sweet_gf';
+        const defaultPersona = (serviceName === 'emma') ? 'sweetie' : 'sweet_gf';
+        const personaId = userPersonas.get(chatId) || defaultPersona;
 
         // STICKER REACTION (4% chance)
         if (Math.random() < 0.04) {

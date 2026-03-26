@@ -12,6 +12,10 @@ services:
         sync: false
       - key: LIAM_BOT_TOKEN
         sync: false
+      - key: EMMA_BOT_TOKEN
+        sync: false
+      - key: ZANE_BOT_TOKEN
+        sync: false
       - key: ANIME_BOT_TOKEN
         sync: false
       - key: CELEB_BOT_TOKEN

@@ -145,7 +145,7 @@ export async function init(sharedApp = null) {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    model: 'sarvam-m',
+                    model: 'sarvam-105b',
                     messages: normalizedMessages,
                     max_tokens,
                     temperature,
@@ -185,7 +185,7 @@ export async function init(sharedApp = null) {
                         id: 'chatcmpl-' + Date.now(),
                         object: 'chat.completion.chunk',
                         created: Math.floor(Date.now() / 1000),
-                        model: 'sarvam-m',
+                        model: 'sarvam-105b',
                         choices: [{ index: 0, delta: { content: delta }, finish_reason: null }]
                     };
                     res.write(`data: ${JSON.stringify(chunkData)}\n\n`);
@@ -195,7 +195,7 @@ export async function init(sharedApp = null) {
                     id: 'chatcmpl-' + Date.now(),
                     object: 'chat.completion.chunk',
                     created: Math.floor(Date.now() / 1000),
-                    model: 'sarvam-m',
+                    model: 'sarvam-105b',
                     choices: [{ index: 0, delta: {}, finish_reason: 'stop' }],
                     usage: { prompt_tokens: 0, completion_tokens: 0, total_tokens: 0 }
                 })}\n\n`);
@@ -206,7 +206,7 @@ export async function init(sharedApp = null) {
                     id: 'chatcmpl-' + Date.now(),
                     object: 'chat.completion',
                     created: Math.floor(Date.now() / 1000),
-                    model: 'sarvam-m',
+                    model: 'sarvam-105b',
                     choices: [{
                         index: 0,
                         message: { role: 'assistant', content: content },
@@ -224,7 +224,7 @@ export async function init(sharedApp = null) {
     // --- Ollama-Compatible Endpoints ---
     router.get('/api/tags', (req, res) => {
         res.json({
-            models: [{ name: 'sarvam-m', details: { family: 'sarvam', parameter_size: 'medium' } }]
+            models: [{ name: 'sarvam-105b', details: { family: 'sarvam', parameter_size: 'medium' } }]
         });
     });
 
@@ -246,7 +246,7 @@ export async function init(sharedApp = null) {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    model: 'sarvam-m',
+                    model: 'sarvam-105b',
                     messages: messages,
                     max_tokens: 600
                 })
@@ -264,11 +264,11 @@ export async function init(sharedApp = null) {
             log('Ollama', `Content length: ${content.length}`);
 
             if (stream) {
-                res.write(JSON.stringify({ model: 'sarvam-m', message: { role: 'assistant', content }, done: true }));
+                res.write(JSON.stringify({ model: 'sarvam-105b', message: { role: 'assistant', content }, done: true }));
                 res.end();
             } else {
                 res.json({
-                    model: 'sarvam-m',
+                    model: 'sarvam-105b',
                     created_at: new Date().toISOString(),
                     message: { role: 'assistant', content },
                     done: true
