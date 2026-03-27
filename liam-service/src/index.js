@@ -52,6 +52,7 @@ export async function init(sharedApp = null, customToken = null, serviceName = '
     log('System', `${serviceName} Bot Orchestrator live.`);
     
     const bot = new TelegramBot(token, { polling: true });
+    bot.on('polling_error', (err) => log('System', `Polling Error: ${err.message}`));
 
     // Track service start time to detect cold-start wake-ups
     const SERVICE_START_TIME = Date.now();
@@ -181,6 +182,12 @@ export async function init(sharedApp = null, customToken = null, serviceName = '
 
             userActivity.set(chatId, Date.now());
             trackMessage(chatId, msg.message_id);
+
+            // 🌅 Cold-start wake-up notification
+            if (Date.now() - SERVICE_START_TIME < WARMUP_WINDOW_MS && !warnedUsers.has(chatId)) {
+                warnedUsers.add(chatId);
+                await safeSendMessage(chatId, `☕ *Just waking up!*\n\nI was resting to save energy. Give me a few seconds to get ready — I'll reply right after! 🌸`, { parse_mode: 'Markdown' });
+            }
 
             if (text.startsWith('/start')) {
                 const startParam = text.split(' ')[1];

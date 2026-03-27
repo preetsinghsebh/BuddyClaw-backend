@@ -30,6 +30,8 @@ export async function init(sharedApp = null, customToken = null, serviceName = '
     log('System', `${serviceName} Bot Orchestrator starting...`);
     
     const bot = new TelegramBot(token, { polling: true });
+    bot.on('polling_error', (err) => log('System', `Polling Error: ${err.message}`));
+
     const SERVICE_START_TIME = Date.now();
     const WARMUP_WINDOW_MS = 90_000; 
     const warnedUsers = new Set();
@@ -144,6 +146,12 @@ export async function init(sharedApp = null, customToken = null, serviceName = '
 
             userActivity.set(chatId, Date.now());
             trackMessage(chatId, msg.message_id);
+
+            // 🌅 Cold-start wake-up notification
+            if (Date.now() - SERVICE_START_TIME < WARMUP_WINDOW_MS && !warnedUsers.has(chatId)) {
+                warnedUsers.add(chatId);
+                await safeSendMessage(chatId, `☕ *Just waking up!*\n\nI was resting to save energy. Give me a few seconds to get ready — I'll reply right after! 🌸`, { parse_mode: 'Markdown' });
+            }
 
             if (text.startsWith('/start')) {
                 const startParam = text.split(' ')[1];

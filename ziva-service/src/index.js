@@ -30,6 +30,7 @@ export async function init(sharedApp = null, customToken = null, serviceName = '
     // Note: Database connection is handled by the master service
     
     const bot = new TelegramBot(token, { polling: true });
+    bot.on('polling_error', (err) => log('System', `Polling Error: ${err.message}`));
 
 // Track service start time to detect cold-start wake-ups
 const SERVICE_START_TIME = Date.now();

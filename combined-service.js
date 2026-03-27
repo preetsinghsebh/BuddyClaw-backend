@@ -47,15 +47,26 @@ async function start() {
 
     log('Master', '🤖 Initializing Bot Microservices with unique tokens...');
     // Sequential initialization with specific tokens from environment
+    log('Master', 'Initializing Bot Services sequentially...');
+    const delay = (ms) => new Promise(res => setTimeout(res, ms));
+
     await initZiva(app, process.env.ZIVA_BOT_TOKEN, 'ziva');
+    await delay(2000);
     await initLiam(app, process.env.LIAM_BOT_TOKEN, 'liam');
+    await delay(2000);
     await initZiva(app, process.env.EMMA_BOT_TOKEN, 'emma');
+    await delay(2000);
     await initLiam(app, process.env.ZANE_BOT_TOKEN, 'zane');
+    await delay(2000);
     await initAnime(app, process.env.ANIME_BOT_TOKEN, 'anime');
+    await delay(2000);
     await initCeleb(app, process.env.CELEB_BOT_TOKEN, 'celeb');
+    await delay(2000);
     await initSafeSpace(app, process.env.SAFESPACE_BOT_TOKEN, 'safespace');
+    await delay(2000);
     await initMindReset(app, process.env.MINDRESET_BOT_TOKEN, 'mindreset');
-    await initOpenClaw(app, process.env.OPENCLAW_BOT_TOKEN, 'chaos');
+    await delay(2000);
+    await initChaos(app, process.env.CHAOS_BOT_TOKEN, 'chaos');
 
     // 4. Global Health Check
     app.get('/health', (req, res) => {
