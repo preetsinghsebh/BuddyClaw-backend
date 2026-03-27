@@ -19,6 +19,8 @@ import { aiQueue, getCharacterResponse, sendHumanizedResponse as sharedSendRespo
 export async function init(sharedApp = null, customToken = null, serviceName = 'anime') {
     const token = customToken || process.env.TELEGRAM_BOT_TOKEN;
 // Note: aiQueue and processing logic moved to shared/ai-handler.js
+    const telemetry = new Telemetry(serviceName);
+    const log = (module, msg) => telemetry.info(`[${module}] ${msg}`);
     
     const bot = new TelegramBot(token, { polling: false });
     

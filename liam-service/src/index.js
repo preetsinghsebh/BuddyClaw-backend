@@ -17,6 +17,8 @@ import { aiQueue, getCharacterResponse, sendHumanizedResponse as sharedSendRespo
 export async function init(sharedApp = null, customToken = null, serviceName = 'liam') {
     const token = customToken || process.env.TELEGRAM_BOT_TOKEN;
 // Note: aiQueue and processing logic moved to shared/ai-handler.js
+    const telemetry = new Telemetry(serviceName);
+    const log = (module, msg) => telemetry.info(`[${module}] ${msg}`);
 
     log('System', `${serviceName} Bot Orchestrator starting...`);
     // Note: Database connection is handled by the master service
