@@ -30,7 +30,16 @@ export async function init(sharedApp = null, customToken = null, serviceName = '
     log('System', `${serviceName} Bot Orchestrator starting...`);
     
     const bot = new TelegramBot(token, { polling: false });
-    await bot.deleteWebhook({ drop_pending_updates: true });
+    
+    // Robust Webhook Clearing (Version-Agnostic)
+    try {
+        if (typeof bot.deleteWebhook === 'function') await bot.deleteWebhook({ drop_pending_updates: true });
+        else if (typeof bot.deleteWebHook === 'function') await bot.deleteWebHook({ drop_pending_updates: true });
+        else await bot.setWebHook(''); 
+    } catch (e) {
+        log('System', `Webhook clear failed (non-critical): ${e.message}`);
+    }
+
     bot.startPolling();
 
     bot.on('polling_error', (err) => log('System', `Polling Error: ${err.message}`));

@@ -50,23 +50,33 @@ async function start() {
     log('Master', 'Initializing Bot Services sequentially...');
     const delay = (ms) => new Promise(res => setTimeout(res, ms));
 
-    await initZiva(app, process.env.ZIVA_BOT_TOKEN, 'ziva');
+    const initSafe = async (name, initFunc, token) => {
+        try {
+            log('Master', `Starting ${name.toUpperCase()}...`);
+            await initFunc(app, token, name);
+            log('Master', `✅ ${name.toUpperCase()} initialized.`);
+        } catch (e) {
+            log('Master', `❌ Failed to initialize ${name.toUpperCase()}: ${e.message}`);
+        }
+    };
+
+    await initSafe('ziva', initZiva, process.env.ZIVA_BOT_TOKEN);
     await delay(2000);
-    await initLiam(app, process.env.LIAM_BOT_TOKEN, 'liam');
+    await initSafe('liam', initLiam, process.env.LIAM_BOT_TOKEN);
     await delay(2000);
-    await initZiva(app, process.env.EMMA_BOT_TOKEN, 'emma');
+    await initSafe('emma', initZiva, process.env.EMMA_BOT_TOKEN);
     await delay(2000);
-    await initLiam(app, process.env.ZANE_BOT_TOKEN, 'zane');
+    await initSafe('zane', initLiam, process.env.ZANE_BOT_TOKEN);
     await delay(2000);
-    await initAnime(app, process.env.ANIME_BOT_TOKEN, 'anime');
+    await initSafe('anime', initAnime, process.env.ANIME_BOT_TOKEN);
     await delay(2000);
-    await initCeleb(app, process.env.CELEB_BOT_TOKEN, 'celeb');
+    await initSafe('celeb', initCeleb, process.env.CELEB_BOT_TOKEN);
     await delay(2000);
-    await initSafeSpace(app, process.env.SAFESPACE_BOT_TOKEN, 'safespace');
+    await initSafe('safespace', initSafeSpace, process.env.SAFESPACE_BOT_TOKEN);
     await delay(2000);
-    await initMindReset(app, process.env.MINDRESET_BOT_TOKEN, 'mindreset');
+    await initSafe('mindreset', initMindReset, process.env.MINDRESET_BOT_TOKEN);
     await delay(2000);
-    await initChaos(app, process.env.CHAOS_BOT_TOKEN, 'chaos');
+    await initSafe('chaos', initChaos, process.env.CHAOS_BOT_TOKEN);
 
     // 4. Global Health Check
     app.get('/health', (req, res) => {
