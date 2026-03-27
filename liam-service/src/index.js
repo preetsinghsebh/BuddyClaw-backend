@@ -51,7 +51,10 @@ export async function init(sharedApp = null, customToken = null, serviceName = '
     // Note: Database connection is handled by the master service
     log('System', `${serviceName} Bot Orchestrator live.`);
     
-    const bot = new TelegramBot(token, { polling: true });
+    const bot = new TelegramBot(token, { polling: false }); // Start without polling first
+    await bot.deleteWebhook({ drop_pending_updates: true });
+    bot.startPolling();
+    
     bot.on('polling_error', (err) => log('System', `Polling Error: ${err.message}`));
 
     // Track service start time to detect cold-start wake-ups

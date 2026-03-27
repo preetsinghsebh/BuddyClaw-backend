@@ -29,7 +29,10 @@ export async function init(sharedApp = null, customToken = null, serviceName = '
 
     log('System', `${serviceName} Bot Orchestrator starting...`);
     
-    const bot = new TelegramBot(token, { polling: true });
+    const bot = new TelegramBot(token, { polling: false });
+    await bot.deleteWebhook({ drop_pending_updates: true });
+    bot.startPolling();
+
     bot.on('polling_error', (err) => log('System', `Polling Error: ${err.message}`));
 
     const SERVICE_START_TIME = Date.now();
