@@ -176,8 +176,6 @@ export async function init(sharedApp = null, customToken = null, serviceName = '
         }
     });
 
-    log('System', `${serviceName} Bot Orchestrator live.`);
-}
 
 function detectLanguage(text) {
     if (!text) return 'english';
