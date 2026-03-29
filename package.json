@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "type": "module",
   "description": "BuddyClaw Backend: Consolidated Mono-service AI companion ecosystem.",
-  "main": "combined-service.js",
+  "main": "buddy-claw-service/index.js",
   "scripts": {
-    "start": "node combined-service.js",
+    "start": "node buddy-claw-service/index.js",
     "install-all": "npm install && npm install --prefix web",
     "build": "echo 'Root build not required. Deployment uses combined-service.js.'"
   },

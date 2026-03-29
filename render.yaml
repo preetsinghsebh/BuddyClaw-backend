@@ -1,37 +1,21 @@
 services:
-  # 1. DostAI Mono-Service (8 Backend Services in One)
+  # 1. Buddy Claw universal bot
   - type: web
-    name: dostai-combined
+    name: buddy-claw
     env: node
     plan: free
     buildCommand: npm install
-    startCommand: node combined-service.js
+    startCommand: npm start
     envVars:
       - fromGroup: dostai-shared
-      - key: ZIVA_BOT_TOKEN
-        sync: false
-      - key: LIAM_BOT_TOKEN
-        sync: false
-      - key: EMMA_BOT_TOKEN
-        sync: false
-      - key: ZANE_BOT_TOKEN
-        sync: false
-      - key: ANIME_BOT_TOKEN
-        sync: false
-      - key: CELEB_BOT_TOKEN
-        sync: false
-      - key: SAFESPACE_BOT_TOKEN
-        sync: false
-      - key: MINDRESET_BOT_TOKEN
-        sync: false
-      - key: OPENCLAW_BOT_TOKEN
+      - key: BUDDY_CLAW_TOKEN
         sync: false
       - key: SARVAM_API_KEY
         sync: false
       - key: MONGODB_URI
         sync: false
       - key: SARVAM_PROXY_URL
-        value: http://localhost:10000/v1/chat/completions # Render default port is 10000
+        value: http://localhost:10000/v1/chat/completions
     healthCheckPath: /health
 
   # 2. Web Frontend (Next.js)
@@ -45,7 +29,7 @@ services:
       - fromGroup: dostai-shared
       - key: SARVAM_PROXY_URL
         fromService:
-          name: dostai-combined
+          name: buddy-claw
           type: web
           property: host
       - key: NEXT_PUBLIC_SUPABASE_URL
