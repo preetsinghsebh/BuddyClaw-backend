@@ -2,7 +2,7 @@ import { promises as fs } from 'fs';
 import path from 'path';
 import mongoose from 'mongoose';
 
-const DEFAULT_PATH = path.resolve(process.cwd(), 'config', 'personas.json');
+const DEFAULT_PATH = path.resolve(process.cwd(), 'buddy-claw-service', 'config', 'personas.json');
 
 // Schema for Personas if stored in MongoDB
 const PersonaSchema = new mongoose.Schema({
