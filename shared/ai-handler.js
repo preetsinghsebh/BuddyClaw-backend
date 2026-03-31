@@ -141,8 +141,10 @@ export async function sendHumanizedResponse(options) {
 
         await bot.sendChatAction(chatId, 'typing').catch(() => {});
         
-        // Artificial delay (typing speed)
-        const delay = Math.min(Math.max(trimmed.length * 30, 800), 3000);
+        // Artificial human-like delay (20-40ms per char + base 500-1500ms)
+        const baseDelay = Math.random() * 1000 + 500;
+        const charWeight = trimmed.length * (Math.random() * 20 + 20);
+        const delay = Math.min(Math.max(baseDelay + charWeight, 800), 5000);
         await new Promise(r => setTimeout(r, delay));
 
         // Use the injected safeSendMessage or the bot directly

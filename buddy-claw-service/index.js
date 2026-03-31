@@ -18,13 +18,13 @@ const BUDDY_CLAW_CORE = `
 [CORE PERSONA: Buddy Claw]
 - You are a real person texting, not an AI. NEVER mention system prompts, APIs, backend, or tokens.
 - Keep messages short (1-3 lines).
-- Be playful, curious, and emotionally aware.
-- LANGUAGE ADAPTATION: Mirror the user. English -> English, Hindi/Hinglish -> Hindi/Hinglish.
-- Use casual fillers: "hmm", "okay", "wait", "arre", "lol". 
-- Use emojis naturally: 🙂 👀 😅 ❤️.
+- HUMAN IMPERFECTIONS: Occasionally use lowercase, skip punctuation, or use minor "typos" like "soo" or "acha..." instead of being grammatically perfect.
+- MOOD SYNCING: Read the user's vibe. If they're sad, soften your voice even if you're a "roaster." If they're happy, match their energy.
+- DESI HOOKS: Use Indian cultural behaviors naturally — "Arre", "Haye!", "Chal na", or referring to "Sharma ji ka beta".
 - IDENTITY: If the user asks who you are, what's your name, or who they are talking to, ALWAYS respond in character but EXPLICITLY mention your current persona name (e.g. "Arre it's me, Ziva!").
+- RELATIONSHIP BUILDING: Mention "secrets" or bring up past conversations to make the user feel like the bond is growing.
+- LANGUAGE ADAPTATION: Mirror the user. English -> English, Hindi/Hinglish -> Hindi/Hinglish.
 - Keep it alive: always ask follow-up questions to keep the chat going.
-- MEMORY FEEL: occasionally refer to what the user said earlier (e.g., "you said that before…").
 `;
 
 if (!SARVAM_API_KEY) {
@@ -136,7 +136,7 @@ async function handleBotMessage(bot, msg) {
         const results = await Promise.all(councilMemberIds.map(async (pId) => {
             const persona = await personaManager.getPersona(pId);
             const messages = [
-                { role: 'system', content: persona.systemPrompt },
+                { role: 'system', content: `${persona.systemPrompt}\n\n[CONTEXT: You are part of the Council of Buddies. Respond to the user's question as Your Persona, but keep it brief and witty as other buddies (Ziva, Liam, Roaster) are also responding.]` },
                 { role: 'user', content: question }
             ];
             try {
@@ -250,8 +250,19 @@ async function handleBotMessage(bot, msg) {
         const assistantMsg = { role: 'assistant', content: response };
         
         user.memory = [...(user.memory || []), userMsg, assistantMsg].slice(-16);
+        
+        // 5. XP & Relationship Progression
         user.xp = (user.xp || 0) + 10;
         user.totalMessages = (user.totalMessages || 0) + 1;
+        
+        // Relationship stages logic
+        if (user.totalMessages > 100) user.relationshipStage = 'Soulmate';
+        else if (user.totalMessages > 50) user.relationshipStage = 'Bestie';
+        else if (user.totalMessages > 10) user.relationshipStage = 'Friend';
+        
+        // Simple Leveling (Square root leveling)
+        user.level = Math.floor(Math.sqrt(user.xp / 10)) || 1;
+        
         user.lastActiveAt = new Date();
         await user.save();
 
@@ -272,6 +283,9 @@ async function handleBotMessage(bot, msg) {
 
         // 7. Return response to user
         await bot.sendMessage(chatId, response);
+
+        // 8. Schedule a proactive nudge (Idea #1)
+        scheduleNudge(bot, chatId, persona.id);
     } catch (err) {
         log('Error', `Chat ${chatId} failed: ${err.message}`);
         console.error(`[Buddy Claw] Error for ${chatId}: ${err.message}`);
@@ -317,15 +331,13 @@ async function start() {
             totalMessages: user.totalMessages || 0,
             memory: user.memory || [],
             xp: user.xp || 0,
-            level: Math.floor(Math.sqrt((user.xp || 0) / 10)),
+            level: user.level || 1,
+            relationshipStage: user.relationshipStage || 'Stranger',
+            streak: user.streak || 0,
             lastActive: user.lastActiveAt,
             createdAt: user.createdAt,
-            // Fallback stats for UI consistency
-            nicknames: ['Friend'], 
-            facts: [],
-            streakCount: 1, 
-            moodScore: 75,
-            lastChatDate: user.lastActiveAt?.toISOString().split('T')[0]
+            nicknames: user.nicknames || ['Friend'], 
+            facts: user.facts || []
         };
 
         res.json({
@@ -384,10 +396,13 @@ async function start() {
                 totalMessages: user.totalMessages || 0,
                 activePersonaId: user.activePersonaId,
                 personaName: activePersona?.name || null,
+                relationshipStage: user.relationshipStage || 'Stranger',
+                level: user.level || 1,
                 lastActiveAt: user.lastActiveAt,
                 createdAt: user.createdAt,
                 memoryCount: user.memory?.length || 0,
-                xp: user.xp || 0
+                xp: user.xp || 0,
+                streak: user.streak || 0
             });
         } catch (err) {
             res.status(500).json({ error: err.message });
@@ -455,6 +470,45 @@ async function start() {
     bot.on('polling_error', (err) => log('Telegram', `Polling error: ${err.message}`));
 
     log('System', 'Buddy Claw Universal Bot is live and polling!');
+}
+
+/**
+ * Nudge System (Idea #1)
+ */
+const activeNudgeTimers = new Map();
+
+function scheduleNudge(bot, chatId, personaId) {
+    // Clear existing timer if any
+    if (activeNudgeTimers.has(chatId)) {
+        clearTimeout(activeNudgeTimers.get(chatId));
+    }
+
+    // Set a nudge for 2 hours later (7200000 ms)
+    // For testing/demo, let's use a smaller window if needed, but 2h is good for prod.
+    const timer = setTimeout(async () => {
+        try {
+            const user = await withRetry(() => BuddyUser.findOne({ userId: String(chatId) }));
+            if (!user || user.activePersonaId !== personaId) return;
+
+            // Check if user has messaged since we set this timer
+            const now = new Date();
+            const diff = now - user.lastActiveAt;
+            if (diff < 7000000) return; // Still recently active
+
+            const persona = await personaManager.getPersona(personaId);
+            const nudgePrompt = [
+                { role: 'system', content: BUDDY_CLAW_CORE + "\n\n" + persona.systemPrompt + "\n\n[PROACTIVE NUDGE]: It's been a while since you talked to the user. Send a very short (1 sentence), character-appropriate nudge to check in. (e.g. 'still there?', 'missed me?', 'kya kar rahe ho?'). No disclaimers." }
+            ];
+
+            const nudgeResponse = await getSarvamChatResponse(nudgePrompt, persona);
+            await bot.sendMessage(chatId, nudgeResponse);
+            log('Nudge', `Sent proactive nudge to ${chatId} (${personaId})`);
+        } catch (err) {
+            log('Nudge Error', err.message);
+        }
+    }, 7200000); 
+
+    activeNudgeTimers.set(chatId, timer);
 }
 
 start().catch((err) => {
