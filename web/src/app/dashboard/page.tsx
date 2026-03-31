@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, type CSSProperties } from "react";
+import { useEffect, useState, Suspense, type CSSProperties } from "react";
 import { useSearchParams } from "next/navigation";
 import { 
     Activity, 
