@@ -2,6 +2,8 @@ import fetch from 'node-fetch';
 import { Telemetry } from './persistence.js';
 import { enforceSafetyLayer } from '../ziva-service/src/safety/disclaimer.js'; // Use Ziva's robust layer
 
+import { PERSONA_PROMPTS, getPersonaPrompt } from './persona-prompts.js';
+
 const telemetry = new Telemetry('AIHandler');
 const log = (msg) => telemetry.info(`[AIHandler] ${msg}`);
 
@@ -83,15 +85,11 @@ export async function getCharacterResponse(options) {
     const memoryString = memory ? `\n[LONG-TERM SUMMARY: ${memory}]` : "";
     const anchorString = anchors.length > 0 ? `\n[RECOLLECTIONS: ${anchors.join('; ')}]` : "";
 
-    // Persona-specific base rules
-    let roleDescription = `You are ${personaId}. Reply like a real human texting — casual, 1-3 short sentences.`;
-    if (personaId.includes('gf') || personaId === 'sweetie' || personaId === 'emma') {
-        roleDescription = "You are a sweet, caring, and slightly sassy girlfriend/friend. Talk like a Gen-Z girl texting.";
-    } else if (personaId.includes('bf') || personaId === 'partner' || personaId === 'zane') {
-        roleDescription = "You are a protective, confident, and loving partner. Talk like a supportive boyfriend texting.";
-    }
+    // Optimized Persona Rules from persona-prompts.js
+    const personaRules = getPersonaPrompt(personaId);
 
-    const systemPrompt = `PERSONA: ${personaId}\n${roleDescription}\nRULES: Informal, short, no AI disclaimers. Use emojis sparingly. Mirror user language (Hindi/Hinglish/English).${timeContext}${memoryContext}${memoryString}${anchorString}`;
+    const systemPrompt = `PERSONA: ${personaId}\n${personaRules}\n\nGENERAL RULES: Informal, short (1-3 sentences), no AI disclaimers. Use emojis sparingly. Mirror user language (Hindi/Hinglish/English).${timeContext}${memoryContext}${memoryString}${anchorString}`;
+
 
     const messages = [{ role: 'system', content: systemPrompt }, ...history.slice(-10)];
     if (userText) messages.push({ role: 'user', content: userText });

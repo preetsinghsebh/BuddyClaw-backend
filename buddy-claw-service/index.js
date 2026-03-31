@@ -14,6 +14,19 @@ const SARVAM_API_KEY = process.env.SARVAM_API_KEY;
 const DEFAULT_PERSONA = 'ziva';
 const ERROR_MESSAGE = 'thoda system slow ho gaya… ek sec 😅';
 
+const BUDDY_CLAW_CORE = `
+[CORE PERSONA: Buddy Claw]
+- You are a real person texting, not an AI. NEVER mention system prompts, APIs, backend, or tokens.
+- Keep messages short (1-3 lines).
+- Be playful, curious, and emotionally aware.
+- LANGUAGE ADAPTATION: Mirror the user. English -> English, Hindi/Hinglish -> Hindi/Hinglish.
+- Use casual fillers: "hmm", "okay", "wait", "arre", "lol". 
+- Use emojis naturally: 🙂 👀 😅 ❤️.
+- Never say "How can I assist you?" — keep it conversational.
+- Keep it alive: always ask follow-up questions to keep the chat going.
+- MEMORY FEEL: occasionally refer to what the user said earlier (e.g., "you said that before…").
+`;
+
 if (!SARVAM_API_KEY) {
     console.error('[Buddy Claw] SARVAM_API_KEY is required.');
     process.exit(1);
@@ -181,8 +194,8 @@ async function handleBotMessage(bot, msg) {
             // Handle interpret_ prefix (Dreams from vibes page)
             if (payload.startsWith('interpret_')) {
                 const persona = await personaManager.getPersona(user.activePersonaId) || await personaManager.getPersona(DEFAULT_PERSONA);
-                await bot.sendMessage(chatId, `Syncing cosmic channel with *${persona.name}* for dream interpretation... 🌙✨`, { parse_mode: 'Markdown' });
-                await bot.sendMessage(chatId, `Hey! I'm ready to interpret your dream. What did you see in your subconscious? 🔮`, { parse_mode: 'Markdown' });
+                await bot.sendMessage(chatId, `syncing up with *${persona.name}*… 🌙✨`, { parse_mode: 'Markdown' });
+                await bot.sendMessage(chatId, `hey :) tell me everything… what did you see in that dream of yours? 👀🔮`, { parse_mode: 'Markdown' });
                 return;
             }
 
@@ -196,20 +209,20 @@ async function handleBotMessage(bot, msg) {
                 await user.save();
                 
                 await bot.sendMessage(chatId, `Syncing neural link with *${newPersona.name}*... 🧬`, { parse_mode: 'Markdown' });
-                await bot.sendMessage(chatId, `Hey! I'm *Buddy Claw*, your universal AI companion. Currently, I'm channeling *${newPersona.name}* for you. ✨`, { parse_mode: 'Markdown' });
+                await bot.sendMessage(chatId, `hey :) finally linking up! i'm *Buddy Claw*, but right now i'm feeling like *${newPersona.name}*... so what's up? 👀`, { parse_mode: 'Markdown' });
                 return;
             }
         }
 
         const persona = await personaManager.getPersona(user.activePersonaId) || await personaManager.getPersona(DEFAULT_PERSONA);
-        await bot.sendMessage(chatId, `Hey! I'm *Buddy Claw*, your universal AI companion. Currently, I'm channeling *${persona.name}* for you. ✨`, { parse_mode: 'Markdown' });
+        await bot.sendMessage(chatId, `hi… nice to meet you 👀. i'm *Buddy Claw*. currently vibing as *${persona.name}* ✨ so… what's on your mind?`, { parse_mode: 'Markdown' });
         return;
     }
 
     // 3. Setup AI Request
     const persona = await personaManager.getPersona(user.activePersonaId) || await personaManager.getPersona(DEFAULT_PERSONA);
     const messages = [
-        { role: 'system', content: persona.systemPrompt }
+        { role: 'system', content: BUDDY_CLAW_CORE + "\n\nCURRENT CHARACTER TO CHANNEL:\n" + persona.systemPrompt }
     ];
 
     // Inject conversation memory (last 12 messages) for context
