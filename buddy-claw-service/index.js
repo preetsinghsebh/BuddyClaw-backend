@@ -415,8 +415,12 @@ async function start() {
     const PORT = process.env.PORT || 3000;
     app.listen(PORT, () => log('System', `HTTP interface listening on port ${PORT}`));
 
+    // Initialize Bot
+    bot = new TelegramBot(TELEGRAM_TOKEN, { polling: true });
+
     // Attach Listeners
     bot.on('message', (msg) => handleBotMessage(bot, msg));
+    bot.on('polling_error', (err) => log('Telegram', `Polling error: ${err.message}`));
     
     bot.on('callback_query', async (query) => {
         const chatId = query.message.chat.id;
