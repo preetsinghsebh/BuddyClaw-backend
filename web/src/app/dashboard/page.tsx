@@ -33,6 +33,8 @@ interface UserProfile {
     memory?: { role: string; content: string }[];
     xp?: number;
     level?: number;
+    relationshipStage?: string;
+    streak?: number;
 }
 
 // Separate content component to use searchParams safely
@@ -189,11 +191,14 @@ function DashboardContent() {
                              BuddyClaw OS v1.0
                         </div>
                         <h1 className="text-4xl md:text-5xl font-light">
-                            Welcome Back, <span className="font-medium text-[#FFB300]">{profile.nicknames[0] || "Friend"}</span>
-                            <span className="ml-4 inline-flex items-center justify-center px-4 py-1.5 bg-[#FFB300] text-[#05050A] rounded-full text-xs font-black tracking-widest uppercase">
-                                LVL {profile.level || 0}
-                            </span>
-                        </h1>
+                                  <span className="font-medium text-[#FFB300]">{profile.nicknames[0] || "Friend"}</span>
+                                <span className="ml-4 inline-flex items-center justify-center px-4 py-1.5 bg-[#FFB300] text-[#05050A] rounded-full text-[10px] font-black tracking-widest uppercase">
+                                    LVL {profile.level || 1}
+                                </span>
+                                <span className="ml-2 inline-flex items-center justify-center px-3 py-1.5 border border-[#FFB300]/30 text-[#FFB300] rounded-full text-[10px] font-bold tracking-widest uppercase bg-[#FFB300]/5">
+                                    {profile.relationshipStage || "Stranger"}
+                                </span>
+                            </h1>
                         <p className="text-white/40">Your neural connections are stable across 25+ across personas.</p>
                         
                         {/* XP Progress Bar */}
@@ -233,7 +238,7 @@ function DashboardContent() {
                                 <Flame className="w-6 h-6 text-red-500" />
                             </div>
                             <div>
-                                <div className="text-2xl font-bold">{profile.streakCount}</div>
+                                <div className="text-2xl font-bold">{profile.streak || profile.streakCount || 0}</div>
                                 <div className="text-[10px] uppercase tracking-widest text-white/40">Global Streak</div>
                             </div>
                         </div>
