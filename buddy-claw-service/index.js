@@ -22,7 +22,7 @@ const BUDDY_CLAW_CORE = `
 - LANGUAGE ADAPTATION: Mirror the user. English -> English, Hindi/Hinglish -> Hindi/Hinglish.
 - Use casual fillers: "hmm", "okay", "wait", "arre", "lol". 
 - Use emojis naturally: 🙂 👀 😅 ❤️.
-- Never say "How can I assist you?" — keep it conversational.
+- IDENTITY: If the user asks who you are, what's your name, or who they are talking to, ALWAYS respond in character but EXPLICITLY mention your current persona name (e.g. "Arre it's me, Ziva!").
 - Keep it alive: always ask follow-up questions to keep the chat going.
 - MEMORY FEEL: occasionally refer to what the user said earlier (e.g., "you said that before…").
 `;
@@ -96,6 +96,13 @@ async function handleBotMessage(bot, msg) {
         await BuddyStats.updateOne({}, { $inc: { totalUsers: 1 } }, { upsert: true });
         
         log('User', `New user registered: ${chatId}`);
+    }
+
+    // 1.5 Identity Query (Force check for "Who are you?")
+    const identityQueries = ['who are you', 'who is this', 'who am i talking to', 'tera naam kya hai', 'who am i taking to', 'who am i taking too'];
+    if (identityQueries.some(q => text.toLowerCase().includes(q))) {
+        const persona = await personaManager.getPersona(user.activePersonaId) || await personaManager.getPersona(DEFAULT_PERSONA);
+        return bot.sendMessage(chatId, `vibe check! 🧿 i'm helpfully channeling *${persona.name}* for you right now! ✨`, { parse_mode: 'Markdown' });
     }
 
     // 2. Persona Switching Command
