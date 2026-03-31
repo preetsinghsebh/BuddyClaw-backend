@@ -9,7 +9,7 @@ import BuddyUser from './models/User.js';
 import BuddyStats from './models/Stats.js';
 import { getSarvamChatResponse } from './src/services/sarvam.js';
 
-const TELEGRAM_TOKEN = process.env.TELEGRAM_TOKEN || process.env.BUDDY_CLAW_TOKEN || process.env.TELEGRAM_BOT_TOKEN;
+const TELEGRAM_TOKEN = process.env.TELEGRAM_TOKEN;
 const SARVAM_API_KEY = process.env.SARVAM_API_KEY;
 const DEFAULT_PERSONA = 'ziva';
 const ERROR_MESSAGE = 'thoda system slow ho gaya… ek sec 😅';
@@ -265,7 +265,7 @@ async function start() {
     log('System', 'Buddy Claw Engine warming up...');
 
     if (!TELEGRAM_TOKEN) {
-        console.error('[Buddy Claw] Missing Telegram token (BUDDY_CLAW_TOKEN or TELEGRAM_BOT_TOKEN)');
+        console.error('[Buddy Claw] Missing TELEGRAM_TOKEN');
         process.exit(1);
     }
 

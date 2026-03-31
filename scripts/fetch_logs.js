@@ -2,14 +2,14 @@ import mongoose from 'mongoose';
 import '../shared/env.js';
 import Log from '../shared/models/Log.js';
 
-const MONGODB_URI = process.env.MONGODB_URI;
+const MONGO_URI = process.env.MONGO_URI;
 
 async function getLogs() {
     const dbs = ['', 'dostai', 'friendclaw', 'test'];
     
     for (const dbName of dbs) {
         try {
-            const uri = dbName ? MONGODB_URI.replace('.net/', `.net/${dbName}`) : MONGODB_URI;
+            const uri = dbName ? MONGO_URI.replace('.net/', `.net/${dbName}`) : MONGO_URI;
             console.log(`Trying database: ${dbName || 'default'}...`);
             
             const conn = await mongoose.createConnection(uri, { serverSelectionTimeoutMS: 5000 }).asPromise();

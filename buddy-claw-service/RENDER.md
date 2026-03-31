@@ -14,14 +14,13 @@ Follow these exact steps to deploy your consolidated backend as a single service
    - **Start Command**: `npm start` (Runs `node buddy-claw-service/index.js`)
 
 ### 2. Environment Variables (Required)
-Add these keys in the **Environment** tab:
+Add these keys in the **Environment** tab (Render will inject `PORT` automatically):
 
 | Key | Value | Description |
 | --- | --- | --- |
 | `TELEGRAM_TOKEN` | `your_bot_token` | Universal bot token from @BotFather |
 | `MONGO_URI` | `your_db_uri` | MongoDB Atlas connection string |
 | `SARVAM_API_KEY` | `your_api_key` | Sarvam.ai API key |
-| `PORT` | `3000` | Render usually handles this automatically |
 
 ### 3. Safety Constraints (Already Implemented)
 - **Polling Mode**: Hardcoded to `true` (No webhook setup needed).

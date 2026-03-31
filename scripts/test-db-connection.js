@@ -10,10 +10,10 @@ const __dirname = path.dirname(__filename);
 dotenv.config({ path: path.join(__dirname, '../.env') });
 
 async function testConnection() {
-    const uri = process.env.MONGODB_URI;
+    const uri = process.env.MONGO_URI;
     
     if (!uri) {
-        console.error('❌ Error: MONGODB_URI not found in .env file');
+        console.error('❌ Error: MONGO_URI not found in .env file');
         process.exit(1);
     }
 

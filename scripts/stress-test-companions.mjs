@@ -13,7 +13,8 @@ import { dirname, join } from 'path';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 dotenv.config({ path: join(__dirname, '../.env') });
 
-const PROXY_URL = (process.env.SARVAM_PROXY_URL || 'http://localhost:3005') + '/v1/chat/completions';
+const PROXY_URL = process.env.SARVAM_PROXY_URL || 'https://api.sarvam.ai/v1/chat/completions';
+const SARVAM_API_KEY = process.env.SARVAM_API_KEY;
 
 // All 25 companions with their internal persona ID
 const COMPANIONS = [
@@ -78,9 +79,14 @@ LANGUAGE RULE (CRITICAL): Mirror the language of the user's LAST message. If the
         stream: false
     };
 
+    const headers = { 'Content-Type': 'application/json' };
+    if (SARVAM_API_KEY) {
+        headers['Authorization'] = `Bearer ${SARVAM_API_KEY}`;
+    }
+
     const res = await fetch(PROXY_URL, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers,
         body: JSON.stringify(payload)
     });
 
@@ -163,11 +169,13 @@ async function main() {
     console.log(`${DIM}Proxy: ${PROXY_URL}${RESET}\n`);
 
     // Check proxy is reachable first
-    try {
-        await fetch(PROXY_URL.replace('/v1/chat/completions', '/health'));
-    } catch {
-        console.log(`${YELLOW}⚠  Proxy health check failed — make sure sarvam-proxy is running:${RESET}`);
-        console.log(`   cd sarvam-proxy && node adapter.js\n`);
+    if (PROXY_URL.includes('localhost')) {
+        try {
+            await fetch(PROXY_URL.replace('/v1/chat/completions', '/health'));
+        } catch {
+            console.log(`${YELLOW}⚠  Proxy health check failed — make sure sarvam-proxy is running:${RESET}`);
+            console.log(`   cd sarvam-proxy && node adapter.js\n`);
+        }
     }
 
     const summary = [];

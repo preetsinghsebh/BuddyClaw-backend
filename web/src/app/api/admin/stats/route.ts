@@ -58,7 +58,7 @@ export async function GET() {
 
     } catch (error: any) {
         console.error('[AdminAPI] Stats Error:', error);
-        const maskedUri = (process.env.MONGODB_URI || 'UNDEFINED').replace(/:([^@]+)@/, ':****@');
+        const maskedUri = (process.env.MONGO_URI || 'UNDEFINED').replace(/:([^@]+)@/, ':****@');
         return NextResponse.json({ 
             error: 'Internal Server Error', 
             message: error.message,

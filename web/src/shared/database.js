@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/dostai';
+const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/dostai';
 
 let isConnected = false;
 
@@ -8,10 +8,10 @@ export const connectDB = async () => {
     if (isConnected && mongoose.connection.readyState === 1) return;
 
     try {
-        const maskedUri = MONGODB_URI.replace(/:([^@]+)@/, ':****@');
+        const maskedUri = MONGO_URI.replace(/:([^@]+)@/, ':****@');
         console.log(`[Database] Attempting connection to: ${maskedUri}`);
         
-        await mongoose.connect(MONGODB_URI, {
+        await mongoose.connect(MONGO_URI, {
             serverSelectionTimeoutMS: 5000, // Timeout after 5s instead of default
         });
         
