@@ -13,6 +13,9 @@ const TELEGRAM_TOKEN = process.env.TELEGRAM_TOKEN;
 const SARVAM_API_KEY = process.env.SARVAM_API_KEY;
 const DEFAULT_PERSONA = 'ziva';
 
+// Bot Instance (Global Scope)
+let bot;
+
 // Persistent "Command Center" Keyboard
 const PERSISTENT_KEYBOARD = {
     keyboard: [
@@ -412,48 +415,37 @@ async function start() {
     const PORT = process.env.PORT || 3000;
     app.listen(PORT, () => log('System', `HTTP interface listening on port ${PORT}`));
 
-    // Bot setup: Polling mode ONLY as requested
-    const bot = new TelegramBot(TELEGRAM_TOKEN, { polling: true });
-    
+    // Attach Listeners
     bot.on('message', (msg) => handleBotMessage(bot, msg));
-    bot.on('polling_error', (err) => log('Telegram', `Polling error: ${err.message}`));
+    
+    bot.on('callback_query', async (query) => {
+        const chatId = query.message.chat.id;
+        const data = query.data;
+
+        if (data.startsWith('switch:')) {
+            const personaId = data.split(':')[1];
+            try {
+                const persona = await personaManager.getPersona(personaId);
+                const user = await withRetry(() => BuddyUser.findOne({ userId: String(chatId) }));
+                
+                if (user && persona) {
+                    user.activePersonaId = personaId;
+                    user.memory = []; // Reset memory for fresh start
+                    await user.save();
+
+                    await bot.answerCallbackQuery(query.id, { text: `Neural Link to ${persona.name} established! 🧿` });
+                    await bot.sendMessage(chatId, `vibe check! 🧿 i'm helpfully channeling *${persona.name}* for you now! ✨`, { parse_mode: 'Markdown', reply_markup: PERSISTENT_KEYBOARD });
+                    await bot.deleteMessage(chatId, query.message.message_id).catch(() => {});
+                }
+            } catch (err) {
+                console.error('[Switch Error]', err.message);
+                await bot.answerCallbackQuery(query.id, { text: 'Switch failed... try again!' });
+            }
+        }
+    });
 
     log('System', 'Buddy Claw Universal Bot is live and polling!');
 }
-
-/**
- * Global Callback Listener (for persona switching buttons)
- */
-bot.on('callback_query', async (query) => {
-    const chatId = query.message.chat.id;
-    const data = query.data;
-
-    if (data.startsWith('switch:')) {
-        const personaId = data.split(':')[1];
-        try {
-            const persona = await personaManager.getPersona(personaId);
-            if (!persona) throw new Error('Persona not found');
-
-            const user = await withRetry(() => BuddyUser.findOne({ userId: String(chatId) }));
-            if (!user) throw new Error('User not found');
-
-            user.activePersonaId = personaId;
-            await user.save();
-
-            // Answer callback to remove loading state on button
-            await bot.answerCallbackQuery(query.id, { text: `Neural Link to ${persona.name} established! 🧿` });
-            
-            // Send a warm notification
-            await bot.sendMessage(chatId, `vibe check! 🧿 i'm helpfully channeling *${persona.name}* for you now! ✨`, { parse_mode: 'Markdown' });
-            
-            // Optionally, delete the keyboard message to keep the chat clean
-            await bot.deleteMessage(chatId, query.message.message_id).catch(() => {});
-        } catch (err) {
-            console.error('[Switch Error]', err.message);
-            await bot.answerCallbackQuery(query.id, { text: 'Switch failed... try again!' });
-        }
-    }
-});
 
 /**
  * Nudge System (Idea #1)
