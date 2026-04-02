@@ -306,7 +306,9 @@ async function start() {
     
     app.use(cors());
     app.use(express.json());
-    app.get('/health', (req, res) => res.json({ status: 'healthy', timestamp: new Date() }));
+    app.get('/health', (req, res) => {
+        res.status(200).send('OK');
+    });
     app.get('/personas', async (req, res) => res.json(await personaManager.list()));
     
     app.listen(PORT, () => log('System', `HTTP interface listening on port ${PORT}`));
