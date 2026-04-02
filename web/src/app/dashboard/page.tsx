@@ -300,124 +300,41 @@ function DashboardContent() {
                                 <div className="text-[10px] uppercase tracking-widest text-white/40">Global Streak</div>
                             </div>
                         </div>
-                        <div className="bg-white/5 border rounded-2xl p-4 flex items-center gap-4 group hover:bg-white/10 transition-all" style={sectionStyle}>
-                            <div className="p-3 bg-[#FFB300]/10 rounded-xl group-hover:scale-110 transition-transform">
-                                <Heart className="w-6 h-6 text-[#FFB300]" />
-                            </div>
-                            <div>
-                                <div className="text-2xl font-bold">{profile.moodScore || 85}%</div>
-                                <div className="text-[10px] uppercase tracking-widest text-white/40">Avg Affinity</div>
-                            </div>
-                        </div>
-                        <div className="bg-white/5 border rounded-2xl p-4 flex items-center gap-4 group hover:bg-white/10 transition-all" style={sectionStyle}>
-                            <div className="p-3 bg-purple-500/10 rounded-xl group-hover:scale-110 transition-transform">
-                                <Activity className="w-6 h-6 text-purple-500" />
-                            </div>
-                            <div>
-                                <div className="text-[10px] font-bold text-purple-400 capitalize">{profile.dailyVibe ? "Active" : "Neutral"}</div>
-                                <div className="text-[10px] uppercase tracking-widest text-white/40">Neural Vibe</div>
-                            </div>
-                        </div>
                     </div>
                 </header>
-
-                {/* Vibe Alert Bar */}
-                {profile.dailyVibe && (
-                    <motion.div 
-                        initial={{ opacity: 0, y: -20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="mb-8 p-5 rounded-2xl bg-white/5 border-l-4 overflow-hidden relative"
-                        style={{ borderLeftColor: personaTheme.primary, backgroundColor: `${personaTheme.primary}05` }}
-                    >
-                        <div className="absolute right-0 top-0 p-4 opacity-5">
-                            <Sparkles className="w-12 h-12" />
-                        </div>
-                        <div className="flex items-center gap-3 mb-1">
-                            <Sparkles className="w-4 h-4" style={{ color: personaTheme.secondary }} />
-                            <span className="text-[10px] font-black uppercase tracking-widest text-white/40">Daily Neural Echo</span>
-                        </div>
-                        <p className="text-sm font-light italic leading-relaxed text-white/80">
-                            "{profile.dailyVibe}"
-                        </p>
-                    </motion.div>
-                )}
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     {/* Main Stats Column */}
                     <div className="lg:col-span-2 space-y-8">
-                        {/* Memory Section */}
+                        {/* Recent History Section */}
                         <section className="bg-white/5 border rounded-3xl p-8 backdrop-blur-xl" style={sectionStyle}>
                             <div className="flex items-center justify-between mb-8">
                                 <h2 className="text-xl font-medium flex items-center gap-3">
-                                    <Activity className="w-5 h-5 text-[#FFB300]" /> Core Memory Bank
+                                    <MessageCircle className="w-5 h-5 text-[#FFB300]" /> Recent Transmissions
                                 </h2>
-                                <span className="text-[10px] text-white/30 uppercase tracking-[0.2em]">Encrypted Storage</span>
+                                <span className="text-[10px] text-white/30 uppercase tracking-[0.2em]">Neural Feedback</span>
                             </div>
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                                <div className="space-y-6">
-                                    <div className="space-y-4">
-                                        <h3 className="text-xs font-bold text-white/30 uppercase tracking-widest">Known Identities</h3>
-                                        <div className="flex flex-wrap gap-2">
-                                            {profile.nicknames.length > 0 ? profile.nicknames.map((n, i) => (
-                                                <span key={i} className="px-3 py-1 bg-[#FFB300]/10 border border-[#FFB300]/20 rounded-lg text-[#FFB300] text-sm italic">
-                                                    "{n}"
-                                                </span>
-                                            )) : <span className="text-white/20 text-sm">No aliases recorded yet.</span>}
+                            <div className="space-y-4 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
+                                {profile.memory && profile.memory.length > 0 ? profile.memory.slice(-5).map((m, i) => (
+                                    <div 
+                                        key={i}
+                                        className={`p-4 rounded-2xl text-xs leading-relaxed ${m.role === 'user' ? 'bg-white/5 text-white/70 ml-8' : 'mr-8'}`}
+                                        style={{
+                                            borderLeft: `2px solid ${m.role === 'user' ? memoryUserBorder : memoryCompanionBorder}`,
+                                            backgroundColor: m.role === 'user' ? 'rgba(255,255,255,0.08)' : `${personaTheme.secondary}10`,
+                                            color: m.role === 'user' ? 'rgba(255,255,255,0.7)' : personaTheme.secondary
+                                        }}
+                                    >
+                                        <div className="flex justify-between items-start gap-4">
+                                            <p className="flex-1">{m.content}</p>
                                         </div>
                                     </div>
-                                    <div className="space-y-4">
-                                        <h3 className="text-xs font-bold text-white/30 uppercase tracking-widest">Neural Fragments</h3>
-                                        <div className="grid grid-cols-1 gap-3">
-                                            {profile.facts.length > 0 ? profile.facts.map((f, i) => (
-                                                <motion.div 
-                                                    key={i} 
-                                                    whileHover={{ x: 5 }}
-                                                    className="p-3 rounded-xl bg-white/5 border border-white/5 text-sm text-white/70 flex items-center gap-3 transition-colors hover:border-[#FFB300]/30"
-                                                >
-                                                    <div className="w-2 h-2 rounded-full shadow-[0_0_8px_#FFB300]" style={{ backgroundColor: personaTheme.primary }} />
-                                                    {f}
-                                                </motion.div>
-                                            )) : <div className="text-white/20 text-sm italic py-4">No neural fragments synced yet.</div>}
-                                        </div>
+                                )) : (
+                                    <div className="py-12 text-center opacity-20 italic text-sm">
+                                        No recent activity recorded.
                                     </div>
-                                </div>
-
-                                <div className="space-y-4 pt-6 md:pt-0 border-t md:border-t-0 md:border-l border-white/10 md:pl-8">
-                                    <h3 className="text-xs font-bold text-white/30 uppercase tracking-widest flex items-center gap-2">
-                                        <MessageCircle className="w-3 h-3" /> Recent Neural Transmissions
-                                    </h3>
-                                    <div className="space-y-3 max-h-[250px] overflow-y-auto pr-2 custom-scrollbar">
-                                        {profile.memory && profile.memory.length > 0 ? profile.memory.map((m, i) => (
-                                            <div 
-                                                key={i}
-                                                className={`p-3 rounded-xl text-xs leading-relaxed ${m.role === 'user' ? 'bg-white/5 text-white/70 ml-4' : 'mr-4'}`}
-                                                style={{
-                                                    borderLeft: `2px solid ${m.role === 'user' ? memoryUserBorder : memoryCompanionBorder}`,
-                                                    backgroundColor: m.role === 'user' ? 'rgba(255,255,255,0.08)' : `${personaTheme.secondary}10`,
-                                                    color: m.role === 'user' ? 'rgba(255,255,255,0.7)' : personaTheme.secondary
-                                                }}
-                                            >
-                                                <span className="opacity-40 uppercase text-[8px] font-bold block mb-1">
-                                                    {m.role === 'user' ? 'Transmission Inbound' : 'Neural Echo'}
-                                                </span>
-                                                <div className="flex justify-between items-start gap-4">
-                                                    <p className="flex-1">{m.content}</p>
-                                                    <button 
-                                                        onClick={() => handleShare(m.content, m.role === 'user' ? 'Me' : 'Companion')}
-                                                        className="mt-1 opacity-20 hover:opacity-100 transition-opacity"
-                                                    >
-                                                        <Share2 className="w-3 h-3" />
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        )) : (
-                                            <div className="h-full flex items-center justify-center py-10 opacity-20 italic text-sm">
-                                                History stream offline...
-                                            </div>
-                                        )}
-                                    </div>
-                                </div>
+                                )}
                             </div>
                         </section>
 
@@ -533,45 +450,6 @@ function DashboardContent() {
 
                     {/* Sidebar / Profile Settings Column */}
                     <div className="space-y-8">
-                        <section className="bg-white/5 border border-white/10 rounded-3xl p-6 relative overflow-hidden" style={sectionStyle}>
-                            <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: `radial-gradient(circle at 50% 50%, ${personaTheme.primary}, transparent)` }} />
-                            <div className="flex items-center gap-3 mb-6">
-                                <Sparkles className="w-5 h-5 text-[#FFB300]" />
-                                <h2 className="text-lg font-medium text-white/80">Neural Vault</h2>
-                            </div>
-                            <div className="space-y-4 relative z-10">
-                                {profile.level && profile.level >= 3 ? (
-                                    <div className="p-4 rounded-2xl bg-[#FFB300]/10 border border-[#FFB300]/20 flex items-center gap-4">
-                                        <div className="p-2 bg-[#FFB300] rounded-xl text-black">
-                                            <Shield className="w-4 h-4" />
-                                        </div>
-                                        <div>
-                                            <div className="text-xs font-bold text-[#FFB300] uppercase">Level 3 Reward</div>
-                                            <div className="text-xs text-white/70">Neural Link Stable. Access granted.</div>
-                                        </div>
-                                    </div>
-                                ) : (
-                                    <div className="p-4 rounded-2xl bg-white/5 border border-white/10 flex items-center gap-4 grayscale opacity-40">
-                                        <div className="p-2 bg-white/20 rounded-xl text-white">
-                                            <Shield className="w-4 h-4" />
-                                        </div>
-                                        <div>
-                                            <div className="text-xs font-bold text-white/40 uppercase tracking-widest">LOCKED</div>
-                                            <div className="text-xs text-white/30 italic font-light">Reach Level 3 to unlock.</div>
-                                        </div>
-                                    </div>
-                                )}
-
-                                <div className="space-y-2 mt-4 pt-4 border-t border-white/5">
-                                    <h4 className="text-[10px] font-bold text-white/30 uppercase tracking-[0.2em] mb-3">Sync Fragments</h4>
-                                    {profile.unlockedSecrets && profile.unlockedSecrets.length > 0 ? profile.unlockedSecrets.map((s, i) => (
-                                        <div key={i} className="text-xs text-white/60 flex items-center gap-2">
-                                            <CheckCircle2 className="w-3 h-3 text-[#FFB300]" /> {s}
-                                        </div>
-                                    )) : <div className="text-[10px] text-white/20 italic font-light">No artifacts recovered yet.</div>}
-                                </div>
-                            </div>
-                        </section>
 
                         <section className="bg-[#FFB300]/5 border border-[#FFB300]/20 rounded-3xl p-6">
                             <div className="flex items-center gap-4 mb-6">
