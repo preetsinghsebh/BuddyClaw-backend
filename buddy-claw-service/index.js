@@ -28,6 +28,51 @@ const PERSISTENT_KEYBOARD = {
 };
 const ERROR_MESSAGE = 'Systems are lagging slightly... one sec! 😅';
 
+// --- (NEW) EXPRESS TOP-LEVEL INITIALIZATION ---
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+// HEALTH CHECK FIRST (CRITICAL FOR RENDER)
+app.get('/health', (req, res) => {
+    res.status(200).send('OK');
+});
+
+// Middleware & Global Routes
+app.use(cors());
+app.use(express.json());
+app.get('/personas', async (req, res) => res.json(await personaManager.list()));
+
+// User Stats & Memory for Dashboard
+app.get('/api/user/stats', async (req, res) => {
+    const { id } = req.query;
+    if (!id) return res.status(400).json({ error: 'Missing user ID' });
+    const user = await withRetry(() => BuddyUser.findOne({ userId: String(id) }));
+    if (!user) return res.status(404).json({ error: 'User not found' });
+    const activePersona = await personaManager.getPersona(user.activePersonaId);
+    
+    const profile = {
+        userId: user.userId,
+        activePersonaId: user.activePersonaId,
+        totalMessages: user.totalMessages || 0,
+        memory: user.memory || [],
+        xp: user.xp || 0,
+        level: user.level || 1,
+        relationshipStage: user.relationshipStage || 'Stranger',
+        streak: user.streak || 0,
+        dailyVibe: user.dailyVibe || '',
+        unlockedSecrets: user.unlockedSecrets || [],
+        lastActive: user.lastActiveAt,
+        createdAt: user.createdAt,
+        nicknames: user.nicknames || ['Friend'], 
+        facts: user.facts || []
+    };
+
+    res.json({
+        profile,
+        activePersonas: activePersona ? [activePersona] : []
+    });
+});
+
 const BUDDY_CLAW_CORE = `
 [CORE PERSONA: Buddy Claw]
 - You are a real person texting, not an AI. NEVER mention system prompts, APIs, backend, or tokens.
@@ -289,6 +334,7 @@ async function handleBotMessage(bot, msg) {
     }
 }
 
+
 /**
  * Main Entry Point
  */
@@ -301,57 +347,13 @@ async function start() {
     }
 
     // 1. START HTTP SERVER IMMEDIATELY (Answers Render's Doorbell)
-    const app = express();
-    const PORT = process.env.PORT || 3000;
-    
-    app.use(cors());
-    app.use(express.json());
-    app.get('/health', (req, res) => {
-        res.status(200).send('OK');
-    });
-    app.get('/personas', async (req, res) => res.json(await personaManager.list()));
-    
     app.listen(PORT, () => log('System', `HTTP interface listening on port ${PORT}`));
 
     // 2. CONNECT DB & LOAD PERSONAS (Takes time, but server is already alive)
     await connectDB();
     await personaManager.load();
 
-    // API: User Stats & Memory for Dashboard
-    app.get('/api/user/stats', async (req, res) => {
-        const { id } = req.query;
-        if (!id) return res.status(400).json({ error: 'Missing user ID' });
-
-        const user = await withRetry(() => BuddyUser.findOne({ userId: String(id) }));
-        if (!user) return res.status(404).json({ error: 'User not found' });
-
-        const activePersona = await personaManager.getPersona(user.activePersonaId);
-        
-        // Simplified profile object for frontend consumption
-        const profile = {
-            userId: user.userId,
-            activePersonaId: user.activePersonaId,
-            totalMessages: user.totalMessages || 0,
-            memory: user.memory || [],
-            xp: user.xp || 0,
-            level: user.level || 1,
-            relationshipStage: user.relationshipStage || 'Stranger',
-            streak: user.streak || 0,
-            dailyVibe: user.dailyVibe || '',
-            unlockedSecrets: user.unlockedSecrets || [],
-            lastActive: user.lastActiveAt,
-            createdAt: user.createdAt,
-            nicknames: user.nicknames || ['Friend'], 
-            facts: user.facts || []
-        };
-
-        res.json({
-            profile,
-            activePersonas: activePersona ? [activePersona] : []
-        });
-    });
-
-    // NEW ANALYTICS ENDPOINTS
+    // 3. INTERNAL ANALYTICS ENDPOINTS (Wait for DB)
     app.get('/stats', async (req, res) => {
         try {
             const statsDoc = await withRetry(() => BuddyStats.findOne({}));
@@ -502,18 +504,28 @@ async function start() {
 
     log('System', 'Buddy Claw Universal Bot is live and polling!');
 
-    // Self-Keep-Alive: If SELF_URL is provided, attempt to stay awake
-    const SELF_URL = process.env.SELF_URL;
+    // --- (NEW) DYNAMIC SELF-URL DETECTION ---
+    const RENDER_EXTERNAL_URL = process.env.RENDER_EXTERNAL_URL;
+    const SELF_URL = RENDER_EXTERNAL_URL || process.env.SELF_URL;
+
     if (SELF_URL) {
-        log('System', `Self-pinging ${SELF_URL} every 10 mins to prevent sleep...`);
-        setInterval(async () => {
-            try {
-                await axios.get(`${SELF_URL}/health`);
-                log('System', 'Self-ping successful (Keep-Alive)');
-            } catch (err) {
-                log('System', `Self-ping failed: ${err.message}`);
-            }
-        }, 10 * 60 * 1000); // 10 minutes
+        log('System', `Self-pinging to ${SELF_URL}/health in 1 minute... (Self-ping detected URL: ${SELF_URL})`);
+        
+        // --- ADDED STARTUP DELAY (60S) ---
+        setTimeout(() => {
+            setInterval(async () => {
+                try {
+                    // Use exact health URL for ping (ensuring it's correct)
+                    const CLEAN_URL = SELF_URL.replace(/\/$/, '');
+                    const HEALTH_URL = `${CLEAN_URL}/health`;
+                    await axios.get(HEALTH_URL);
+                    log('System', `Self-ping successful (Keep-Alive) -> ${HEALTH_URL}`);
+                } catch (err) {
+                    // Prevent crashes: only log, do not throw
+                    log('System', `Self-ping failed (status ${err.response?.status || 'ERR'}): ${err.message}`);
+                }
+            }, 10 * 60 * 1000); // 10 minutes
+        }, 60 * 1000); // Wait 60 seconds before starting pings
     }
 }
 
