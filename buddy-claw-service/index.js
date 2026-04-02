@@ -275,16 +275,21 @@ async function handleBotMessage(bot, msg) {
         }
 
         // --- MEMORY JAR EXTRACTION (Idea #1) ---
-        if (text.length > 5 && !text.startsWith('/')) {
-            const memoryPrompt = [
-                { role: 'system', content: `[ACTION: DATA EXTRACTION]\nYou are a memory module. Look at the user's message: "${text}". Does it contain a personal fact about them (like their name, age, job, pet, favorite food, or a hobby)? If YES, extract only the fact as a short bullet point. If NO, reply "NONE".` }
-            ];
-            const fact = await getSarvamChatResponse(memoryPrompt, { id: 'system' });
-            if (fact && fact !== 'NONE' && !fact.includes('no facts')) {
-                if (!user.facts.includes(fact)) {
-                    user.facts.push(fact);
-                    if (user.facts.length > 20) user.facts.shift();
+        if (text.length > 5 && !text.startsWith('/') && !text.startsWith('My Stats') && !text.startsWith('Change Buddy') && !text.startsWith('The Council')) {
+            try {
+                const memoryPrompt = [
+                    { role: 'system', content: `[ACTION: DATA EXTRACTION]\nYou are a memory module. Look at the user's message: "${text}". Does it contain a personal fact about them (like their name, age, job, pet, favorite food, or a hobby)? If YES, extract only the fact as a short bullet point. If NO, reply "NONE".` }
+                ];
+                // Use the active persona instead of a fake system one to prevent crashes
+                const fact = await getSarvamChatResponse(memoryPrompt, persona);
+                if (fact && fact !== 'NONE' && !fact.includes('NONE') && fact.length < 100) {
+                    if (!user.facts.includes(fact)) {
+                        user.facts.push(fact);
+                        if (user.facts.length > 20) user.facts.shift();
+                    }
                 }
+            } catch (memErr) {
+                log('Memory', 'Extraction failed: ' + memErr.message);
             }
         }
         
