@@ -68,15 +68,24 @@ class AiQueue {
     async process() {
         if (this.processing || this.queue.length === 0) return;
         this.processing = true;
-        const { task, resolve, reject, bot, chatId } = this.queue.shift();
+        
+        const item = this.queue.shift();
+        if (!item) {
+            this.processing = false;
+            return;
+        }
+
+        const { task, resolve, reject, bot, chatId } = item;
         let typingInterval;
+        
         if (bot && chatId) {
             bot.sendChatAction(chatId, 'typing').catch(() => {});
             typingInterval = setInterval(() => bot.sendChatAction(chatId, 'typing').catch(() => {}), 4000);
         }
+
         try {
-            // Add a 20-second timeout to any AI task to prevent queue hanging
-            const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error('AI Request Timeout')), 20000));
+            // 25-second timeout safety shield
+            const timeoutPromise = new Promise((_, r) => setTimeout(() => r(new Error('AI Request Timeout')), 25000));
             const result = await Promise.race([task(), timeoutPromise]);
             resolve(result);
         } catch (err) {
@@ -84,7 +93,8 @@ class AiQueue {
         } finally {
             if (typingInterval) clearInterval(typingInterval);
             this.processing = false;
-            setImmediate(() => this.process());
+            // Short grace period before next task to ensure event loop health
+            setTimeout(() => this.process(), 50);
         }
     }
 }
@@ -292,15 +302,20 @@ async function start() {
         process.exit(1);
     }
 
-    await connectDB();
-    await personaManager.load();
-
-    // Optional Express Server for Webhooks or Health Checks
+    // 1. START HTTP SERVER IMMEDIATELY (Answers Render's Doorbell)
     const app = express();
+    const PORT = process.env.PORT || 3000;
+    
     app.use(cors());
     app.use(express.json());
     app.get('/health', (req, res) => res.json({ status: 'healthy', timestamp: new Date() }));
     app.get('/personas', async (req, res) => res.json(await personaManager.list()));
+    
+    app.listen(PORT, () => log('System', `HTTP interface listening on port ${PORT}`));
+
+    // 2. CONNECT DB & LOAD PERSONAS (Takes time, but server is already alive)
+    await connectDB();
+    await personaManager.load();
 
     // API: User Stats & Memory for Dashboard
     app.get('/api/user/stats', async (req, res) => {
