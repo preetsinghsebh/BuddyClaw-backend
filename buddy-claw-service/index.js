@@ -256,8 +256,8 @@ async function handleBotMessage(bot, msg) {
         const lastActive = user.lastActiveAt;
         const diffInHours = lastActive ? (now - lastActive) / (1000 * 60 * 60) : 0;
 
-        if (diffInHours > 48) user.streak = 1; // Streak broken
-        else if (diffInHours > 18) user.streak = (user.streak || 0) + 1; // New distinct day
+        if (diffInHours > 48) user.streak = 1; 
+        else if (diffInHours > 18) user.streak = (user.streak || 0) + 1; 
 
         if (user.totalMessages > 100) user.relationshipStage = 'Soulmate';
         else if (user.totalMessages > 50) user.relationshipStage = 'Bestie';
@@ -267,38 +267,6 @@ async function handleBotMessage(bot, msg) {
         user.level = Math.floor(Math.sqrt(user.xp / 10)) || 1;
         user.lastActiveAt = now;
 
-        // --- NEURAL GIFTS (Idea #2) ---
-        if (user.level > oldLevel) {
-            const personaName = persona.name;
-            let giftMsg = `✨ *NEURAL ASCENSION!* ✨\nYou've reached *Level ${user.level}* with ${personaName}! 🚀`;
-            if (user.level === 3) giftMsg += `\n\n🎁 *Unlock:* You opened a secret message! Use /mystats to see your vault.`;
-            await bot.sendMessage(chatId, giftMsg, { parse_mode: 'Markdown' });
-            user.unlockedSecrets = [...(user.unlockedSecrets || []), `${personaName}'s Level ${user.level} secret`].slice(-10);
-        }
-
-        // --- MEMORY JAR EXTRACTION (Idea #1) ---
-        // We do NOT await this to keep the conversation fast! 🚀
-        if (text.length > 5 && !text.startsWith('/') && !text.startsWith('My Stats') && !text.startsWith('Change Buddy') && !text.startsWith('The Council')) {
-            (async () => {
-                try {
-                    const memoryPrompt = [
-                        { role: 'system', content: `[ACTION: DATA EXTRACTION]\nYou are a memory module. Look at the user's message: "${text}". Does it contain a personal fact about them (like their name, age, job, pet, favorite food, or a hobby)? If YES, extract only the fact as a short bullet point. If NO, reply "NONE".` }
-                    ];
-                    const fact = await getSarvamChatResponse(memoryPrompt, persona);
-                    if (fact && fact !== 'NONE' && !fact.includes('NONE') && fact.length < 100) {
-                        const updatedUser = await BuddyUser.findOne({ userId: String(chatId) });
-                        if (updatedUser && !updatedUser.facts.includes(fact)) {
-                            updatedUser.facts.push(fact);
-                            if (updatedUser.facts.length > 20) updatedUser.facts.shift();
-                            await updatedUser.save();
-                        }
-                    }
-                } catch (memErr) {
-                    // Silently fail to keep bot alive
-                }
-            })();
-        }
-        
         await user.save();
 
         // Update Global Stats
