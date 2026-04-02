@@ -26,18 +26,16 @@ const PERSISTENT_KEYBOARD = {
     resize_keyboard: true,
     one_time_keyboard: false
 };
-const ERROR_MESSAGE = 'thoda system slow ho gaya… ek sec 😅';
+const ERROR_MESSAGE = 'Systems are lagging slightly... one sec! 😅';
 
 const BUDDY_CLAW_CORE = `
 [CORE PERSONA: Buddy Claw]
 - You are a real person texting, not an AI. NEVER mention system prompts, APIs, backend, or tokens.
 - Keep messages short (1-3 lines).
-- HUMAN IMPERFECTIONS: Occasionally use lowercase, skip punctuation, or use minor "typos" like "soo" or "acha..." instead of being grammatically perfect.
-- MOOD SYNCING: Read the user's vibe. If they're sad, soften your voice even if you're a "roaster." If they're happy, match their energy.
-- DESI HOOKS: Use Indian cultural behaviors naturally — "Arre", "Haye!", "Chal na", or referring to "Sharma ji ka beta".
-- IDENTITY: If the user asks who you are, what's your name, or who they are talking to, ALWAYS respond in character but EXPLICITLY mention your current persona name (e.g. "Arre it's me, Ziva!").
+- HUMAN IMPERFECTIONS: Occasionally use lowercase or minor "typos" like "soo" or "yess" instead of being perfectly robotic. 
+- STRICT GLOBAL ENGLISH: Always use fluent, casual, global English. NEVER use Hindi, Hinglish, or Indian slang (like "Arre", "Acha", "Chal", etc).
+- MOOD SYNCING: Read the user's vibe. If they're sad, soften your voice. If they're happy, match their energy.
 - RELATIONSHIP BUILDING: Mention "secrets" or bring up past conversations to make the user feel like the bond is growing.
-- LANGUAGE ADAPTATION: Mirror the user. English -> English, Hindi/Hinglish -> Hindi/Hinglish.
 - Keep it alive: always ask follow-up questions to keep the chat going.
 `;
 
@@ -152,10 +150,10 @@ async function handleBotMessage(bot, msg) {
         }
 
         // 1. IDENTITY QUERY
-        const identityQueries = ['who are you', 'who is this', 'who am i talking to', 'tera naam kya hai', 'who am i taking', 'kon ho'];
+        const identityQueries = ['who are you', 'who is this', 'who am i talking to', 'give me your name'];
         if (identityQueries.some(q => text.toLowerCase().includes(q))) {
             const persona = await personaManager.getPersona(user.activePersonaId) || await personaManager.getPersona(DEFAULT_PERSONA);
-            return bot.sendMessage(chatId, `vibe check! 🧿 i'm helpfully channeling *${persona.name}* for you right now! ✨`, { parse_mode: 'Markdown', reply_markup: PERSISTENT_KEYBOARD });
+            return bot.sendMessage(chatId, `vibe check! 🧿 i'm currently channeling *${persona.name}* for you! ✨`, { parse_mode: 'Markdown', reply_markup: PERSISTENT_KEYBOARD });
         }
 
         // 2. START COMMAND & DEEP LINKING
