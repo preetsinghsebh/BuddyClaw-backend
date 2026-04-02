@@ -112,7 +112,7 @@ async function handleBotMessage(bot, msg) {
             const keyboard = [];
             for (let i = 0; i < personas.length; i += 2) {
                 const row = personas.slice(i, i + 2).map(p => ({
-                    text: `${p.icon} ${p.name}`,
+                    text: `${p.icon ? p.icon + ' ' : ''}${p.name}`,
                     callback_data: `switch:${p.id}`
                 }));
                 keyboard.push(row);
@@ -202,7 +202,7 @@ async function handleBotMessage(bot, msg) {
             const personas = await personaManager.list();
             const keyboard = [];
             for (let i = 0; i < personas.length; i += 2) {
-                const row = personas.slice(i, i + 2).map(p => ({ text: `${p.icon} ${p.name}`, callback_data: `switch:${p.id}` }));
+                const row = personas.slice(i, i + 2).map(p => ({ text: `${p.icon ? p.icon + ' ' : ''}${p.name}`, callback_data: `switch:${p.id}` }));
                 keyboard.push(row);
             }
             return bot.sendMessage(chatId, "🧿 Choose your Buddy:", { reply_markup: { inline_keyboard: keyboard } });
